@@ -1,7 +1,7 @@
 <style>
 .hero-section {
-  background: linear-gradient(135deg, #0057A8 0%, #003d7a 60%, #00A651 100%);
-  padding: 100px 20px;
+  background: linear-gradient(135deg, #0a0a1a 0%, #0d1b3e 50%, #0a2a1a 100%);
+  padding: 110px 20px 90px;
   text-align: center;
   color: #fff;
   position: relative;
@@ -9,117 +9,149 @@
 }
 .hero-section::before {
   content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(0,166,81,0.1) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 50%, rgba(0,87,168,0.15) 0%, transparent 60%);
 }
-.hero-inner { max-width: 800px; margin: 0 auto; position: relative; }
+.hero-inner { max-width: 860px; margin: 0 auto; position: relative; z-index: 1; }
 .hero-badge {
-  display: inline-block;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: #fff;
-  padding: 6px 18px;
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,166,81,0.15);
+  border: 1px solid rgba(0,166,81,0.4);
+  color: #4ade80;
+  padding: 7px 20px;
   border-radius: 20px;
-  font-size: 13px;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+  font-size: 12px;
+  margin-bottom: 25px;
+  letter-spacing: 2px;
   text-transform: uppercase;
+  font-weight: 600;
 }
+.hero-eyebrow { font-size: 14px; color: #7FD9A0; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; font-weight: 600; }
 .hero-title {
-  font-size: 52px;
-  font-weight: 800;
-  line-height: 1.2;
-  margin-bottom: 20px;
+  font-size: 64px;
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  letter-spacing: -2px;
 }
-.hero-title span { color: #7FD9A0; }
+.hero-title .accent { color: #00A651; }
+.hero-tagline { font-size: 22px; color: #a0c4ff; font-weight: 300; letter-spacing: 4px; margin-bottom: 25px; }
 .hero-subtitle {
-  font-size: 18px;
-  opacity: 0.9;
+  font-size: 17px;
+  color: rgba(255,255,255,0.75);
   margin-bottom: 40px;
-  line-height: 1.7;
+  line-height: 1.8;
+  max-width: 680px;
+  margin-left: auto; margin-right: auto;
 }
-.hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+.hero-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
 .btn-primary {
-  background: #00A651;
-  color: #fff;
-  padding: 15px 35px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 16px;
-  transition: all 0.3s;
+  background: #00A651; color: #fff;
+  padding: 16px 38px; border-radius: 4px;
+  font-weight: 700; font-size: 15px;
+  transition: all 0.3s; letter-spacing: 0.5px;
 }
-.btn-primary:hover { background: #008c44; transform: translateY(-2px); }
+.btn-primary:hover { background: #008c44; transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,166,81,0.3); }
 .btn-secondary {
-  background: transparent;
-  color: #fff;
-  padding: 15px 35px;
-  border-radius: 30px;
-  border: 2px solid #fff;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 16px;
+  background: transparent; color: #fff;
+  padding: 16px 38px; border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.3);
+  font-weight: 600; font-size: 15px;
   transition: all 0.3s;
 }
-.btn-secondary:hover { background: #fff; color: #0057A8; }
+.btn-secondary:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.6); }
 .hero-stats {
-  display: flex;
-  justify-content: center;
-  gap: 60px;
-  margin-top: 60px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
 }
-.stat-item { text-align: center; }
-.stat-number { font-size: 36px; font-weight: 800; color: #7FD9A0; }
-.stat-label { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+.stat-item {
+  background: rgba(255,255,255,0.03);
+  padding: 22px 10px;
+  text-align: center;
+  transition: background 0.3s;
+}
+.stat-item:hover { background: rgba(0,166,81,0.1); }
+.stat-number { font-size: 26px; font-weight: 800; color: #00A651; line-height: 1; }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.certifications {
+  display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+  margin-top: 40px;
+}
+.cert-badge {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.6);
+  padding: 5px 14px;
+  border-radius: 3px;
+  font-size: 11px;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
 @media (max-width: 768px) {
-  .hero-title { font-size: 32px; }
-  .hero-stats { gap: 30px; }
+  .hero-title { font-size: 38px; letter-spacing: -1px; }
+  .hero-stats { grid-template-columns: repeat(3, 1fr); }
+  .hero-tagline { font-size: 16px; }
 }
 </style>
 
 <section class="hero-section">
   <div class="hero-inner">
-    <div class="hero-badge">Trusted Healthcare Partner</div>
-    <h1 class="hero-title">
-      Advanced Orthopedic<br><span>Solutions & Healthcare</span>
-    </h1>
+    <div class="hero-badge">⚡ Master Franchise · Meril Life Sciences · Telangana</div>
+    <div class="hero-eyebrow">The Surgical Backbone of Telangana</div>
+    <h1 class="hero-title">Agile<br><span class="accent">Healthcare</span></h1>
+    <div class="hero-tagline">Surgery. Accelerated.</div>
     <p class="hero-subtitle">
-      Premium orthopedic implants, instruments & healthcare services.<br>
-      Serving surgeons and hospitals across Telangana & Andhra Pradesh.
+      Delivering clinical intelligence and 2-hour OT dispatch support<br>
+      across all 33 districts of Telangana.
     </p>
     <div class="hero-buttons">
-      <a href="/collections/all" class="btn-primary">View Products</a>
-      <a href="/pages/contact" class="btn-secondary">Contact Us</a>
+      <a href="/pages/contact" class="btn-primary">Request OT Support</a>
+      <a href="/collections/all" class="btn-secondary">Explore Clinical Solutions</a>
     </div>
     <div class="hero-stats">
       <div class="stat-item">
-        <div class="stat-number">500+</div>
-        <div class="stat-label">Products Available</div>
+        <div class="stat-number">1,202+</div>
+        <div class="stat-label">Medical Devices</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">200+</div>
-        <div class="stat-label">Hospitals Served</div>
+        <div class="stat-number">33</div>
+        <div class="stat-label">Districts</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">10+</div>
-        <div class="stat-label">Years Experience</div>
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">OT Support</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number">1000+</div>
-        <div class="stat-label">Surgeons Trusted</div>
+        <div class="stat-number">16</div>
+        <div class="stat-label">Clinical Divisions</div>
       </div>
+      <div class="stat-item">
+        <div class="stat-number">2 Hr</div>
+        <div class="stat-label">Avg Dispatch</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">99.8%</div>
+        <div class="stat-label">Precision Match</div>
+      </div>
+    </div>
+    <div class="certifications">
+      <span class="cert-badge">CDSCO Licensed</span>
+      <span class="cert-badge">ISO 13485:2016</span>
+      <span class="cert-badge">GMP Certified</span>
+      <span class="cert-badge">Pan-India Master Franchise</span>
+      <span class="cert-badge">Verified Distributor</span>
     </div>
   </div>
 </section>
 
 {% schema %}
-{
-  "name": "Hero Banner",
-  "settings": []
-}
+{ "name": "Hero Banner", "settings": [] }
 {% endschema %}
