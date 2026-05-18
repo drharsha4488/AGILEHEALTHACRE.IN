@@ -1,0 +1,90 @@
+<style>
+.site-footer { background: #1a1a2e; color: #ccc; padding: 60px 20px 20px; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.footer-brand-name { color: #fff; font-size: 22px; font-weight: 800; margin-bottom: 15px; }
+.footer-brand-name span { color: #00A651; }
+.footer-desc { font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
+.footer-contact p { font-size: 14px; margin: 5px 0; }
+.footer-contact a { color: #00A651; text-decoration: none; }
+.footer-heading { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+.footer-links { list-style: none; padding: 0; margin: 0; }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a { color: #ccc; text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.footer-links a:hover { color: #00A651; }
+.footer-bottom {
+  text-align: center;
+  padding-top: 20px;
+  font-size: 13px;
+  color: #888;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .footer-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">Agile<span>Health</span>Care</div>
+      <p class="footer-desc">Your trusted partner for orthopedic implants, surgical instruments, and healthcare solutions across Telangana and Andhra Pradesh.</p>
+      <div class="footer-contact">
+        <p>📞 <a href="tel:+917416216262">+91 74162 16262</a></p>
+        <p>📧 <a href="mailto:info@agilehealthacre.in">info@agilehealthacre.in</a></p>
+        <p>📍 Hyderabad, Telangana, India</p>
+      </div>
+    </div>
+    <div>
+      <h4 class="footer-heading">Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/collections/all">Products</a></li>
+        <li><a href="/pages/services">Services</a></li>
+        <li><a href="/pages/about">About Us</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Products</h4>
+      <ul class="footer-links">
+        <li><a href="/collections/implants">Bone Implants</a></li>
+        <li><a href="/collections/instruments">Surgical Tools</a></li>
+        <li><a href="/collections/joint-replacement">Joint Replacement</a></li>
+        <li><a href="/collections/spine">Spine Solutions</a></li>
+        <li><a href="/collections/trauma">Trauma Implants</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="footer-heading">Support</h4>
+      <ul class="footer-links">
+        <li><a href="/pages/contact">Get a Quote</a></li>
+        <li><a href="/pages/shipping">Shipping Policy</a></li>
+        <li><a href="/pages/returns">Returns Policy</a></li>
+        <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/pages/terms">Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; {{ "now" | date: "%Y" }} AgileHealthCare. All rights reserved. | Authorized Meril Life Sciences Distributor</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": []
+}
+{% endschema %}
