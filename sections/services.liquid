@@ -1,94 +1,97 @@
 <style>
-.services-section { padding: 80px 20px; background: #f8f9fa; }
-.section-header { text-align: center; margin-bottom: 50px; }
-.section-tag {
-  color: #00A651;
-  font-size: 13px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin-bottom: 10px;
-}
-.section-title { font-size: 36px; font-weight: 800; color: #1a1a2e; margin-bottom: 15px; }
-.section-subtitle { color: #666; font-size: 16px; max-width: 600px; margin: 0 auto; }
-.services-grid {
+.divisions-section { padding: 90px 20px; background: #050d1a; }
+.section-header { text-align: center; margin-bottom: 55px; }
+.section-tag { color: #00A651; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; }
+.section-title { font-size: 38px; font-weight: 900; color: #fff; margin-bottom: 12px; letter-spacing: -1px; }
+.section-subtitle { color: rgba(255,255,255,0.5); font-size: 16px; max-width: 560px; margin: 0 auto; line-height: 1.7; }
+.divisions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2px;
   max-width: 1200px;
   margin: 0 auto;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
 }
-.service-card {
-  background: #fff;
-  border-radius: 15px;
-  padding: 35px 30px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+.division-card {
+  background: #080f1e;
+  padding: 38px 32px;
   transition: all 0.3s;
-  border-bottom: 4px solid transparent;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
 }
-.service-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 40px rgba(0,87,168,0.1);
-  border-bottom-color: #0057A8;
+.division-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #0057A8, #00A651);
+  transform: scaleX(0);
+  transition: transform 0.3s;
+  transform-origin: left;
 }
-.service-icon {
-  width: 65px;
-  height: 65px;
-  background: linear-gradient(135deg, #0057A8, #00A651);
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  font-size: 28px;
-}
-.service-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; }
-.service-desc { color: #666; font-size: 15px; line-height: 1.7; }
+.division-card:hover::before { transform: scaleX(1); }
+.division-card:hover { background: #0d1a2e; }
+.division-icon { font-size: 32px; margin-bottom: 18px; }
+.division-name { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.division-sku { font-size: 12px; color: #00A651; font-weight: 600; letter-spacing: 1px; margin-bottom: 12px; text-transform: uppercase; }
+.division-desc { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.7; }
+.division-arrow { color: #00A651; font-size: 18px; margin-top: 16px; display: inline-block; transition: transform 0.3s; }
+.division-card:hover .division-arrow { transform: translateX(5px); }
 </style>
 
-<section class="services-section">
+<section class="divisions-section">
   <div class="section-header">
-    <div class="section-tag">What We Offer</div>
-    <h2 class="section-title">Our Services</h2>
-    <p class="section-subtitle">Comprehensive healthcare and orthopedic solutions for surgeons, hospitals, and patients.</p>
+    <div class="section-tag">16 Clinical Divisions</div>
+    <h2 class="section-title">Clinical Solutions</h2>
+    <p class="section-subtitle">1,202+ medical devices across every surgical specialty — delivered in 2 hours across all 33 Telangana districts.</p>
   </div>
-  <div class="services-grid">
-    <div class="service-card">
-      <div class="service-icon">🦴</div>
-      <h3 class="service-title">Orthopedic Implants</h3>
-      <p class="service-desc">Premium quality orthopedic implants including plates, screws, nails, and joint replacement systems from leading manufacturers.</p>
+  <div class="divisions-grid">
+    <div class="division-card">
+      <div class="division-icon">🦴</div>
+      <div class="division-name">Trauma & Fracture</div>
+      <div class="division-sku">200+ SKUs</div>
+      <p class="division-desc">Plating systems, intramedullary nails, and fracture fixation devices for all trauma scenarios.</p>
+      <div class="division-arrow">→</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon">🔧</div>
-      <h3 class="service-title">Surgical Instruments</h3>
-      <p class="service-desc">High-precision surgical instruments and power tools designed for orthopedic procedures and minimally invasive surgery.</p>
+    <div class="division-card">
+      <div class="division-icon">🦿</div>
+      <div class="division-name">Arthroplasty</div>
+      <div class="division-sku">200+ SKUs</div>
+      <p class="division-desc">Complete joint replacement solutions — knee, hip, and shoulder systems with anatomical sizing wizards.</p>
+      <div class="division-arrow">→</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon">🏥</div>
-      <h3 class="service-title">Hospital Supply</h3>
-      <p class="service-desc">Reliable supply chain management for hospitals and surgical centers across Telangana and Andhra Pradesh.</p>
+    <div class="division-card">
+      <div class="division-icon">❤️</div>
+      <div class="division-name">Cardiovascular</div>
+      <div class="division-sku">200+ SKUs</div>
+      <p class="division-desc">Coronary stents, heart valves, and vascular intervention devices from Meril Life Sciences.</p>
+      <div class="division-arrow">→</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon">👨‍⚕️</div>
-      <h3 class="service-title">Doctor Network</h3>
-      <p class="service-desc">Connect with top orthopedic specialists and surgeons in your area for consultations and procedures.</p>
+    <div class="division-card">
+      <div class="division-icon">🔬</div>
+      <div class="division-name">Endo-Surgery</div>
+      <div class="division-sku">200+ SKUs</div>
+      <p class="division-desc">Laparoscopic instrumentation and minimally invasive surgical tools for precision procedures.</p>
+      <div class="division-arrow">→</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon">📦</div>
-      <h3 class="service-title">Meril Distributor</h3>
-      <p class="service-desc">Authorized master franchise distributor for Meril Life Sciences — bringing world-class medical devices to your doorstep.</p>
+    <div class="division-card">
+      <div class="division-icon">🧪</div>
+      <div class="division-name">Diagnostics</div>
+      <div class="division-sku">200+ SKUs</div>
+      <p class="division-desc">Lab analyzers, test kits, and diagnostic equipment for hospitals and surgical centers.</p>
+      <div class="division-arrow">→</div>
     </div>
-    <div class="service-card">
-      <div class="service-icon">🚚</div>
-      <h3 class="service-title">Fast Delivery</h3>
-      <p class="service-desc">Emergency and scheduled delivery services ensuring surgical supplies reach you exactly when you need them.</p>
+    <div class="division-card">
+      <div class="division-icon">🚚</div>
+      <div class="division-name">2-Hour OT Dispatch</div>
+      <div class="division-sku">All 33 Districts</div>
+      <p class="division-desc">Hub-and-spoke logistics network ensuring emergency surgical supply reaches your OT within 2 hours statewide.</p>
+      <div class="division-arrow">→</div>
     </div>
   </div>
 </section>
 
 {% schema %}
-{
-  "name": "Services",
-  "settings": []
-}
+{ "name": "Clinical Divisions", "settings": [] }
 {% endschema %}
