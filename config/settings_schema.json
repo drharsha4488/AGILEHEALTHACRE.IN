@@ -1,0 +1,33 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "AgileHealthcare",
+    "theme_version": "1.0.0",
+    "theme_author": "Agile Healthcare",
+    "theme_documentation_url": "https://agilehealthacre.in",
+    "theme_support_url": "https://agilehealthacre.in/contact"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_primary",
+        "label": "Primary Color",
+        "default": "#0057A8"
+      },
+      {
+        "type": "color",
+        "id": "color_secondary",
+        "label": "Secondary Color",
+        "default": "#00A651"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent Color",
+        "default": "#FF6B35"
+      }
+    ]
+  }
+]
