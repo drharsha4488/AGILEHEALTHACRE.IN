@@ -1,0 +1,21 @@
+<div style="min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:40px 24px;">
+  <div>
+    <div style="font-size:120px;font-weight:800;color:rgba(0,166,81,0.15);line-height:1;margin-bottom:8px;">404</div>
+    <h1 style="color:#fff;font-size:32px;font-weight:700;margin-bottom:12px;">Page Not Found</h1>
+    <p style="color:#8899aa;font-size:16px;max-width:480px;margin:0 auto 32px;line-height:1.6;">The page you were looking for doesn't exist. It may have been moved or removed.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="/" class="btn btn-primary">Back to Home</a>
+      <a href="/collections/all" class="btn btn-outline">Browse Catalog</a>
+    </div>
+    <div style="margin-top:32px;">
+      <form action="/search" method="get" style="display:flex;gap:10px;justify-content:center;max-width:400px;margin:0 auto;">
+        <input type="search" name="q" placeholder="Search for a product..." class="newsletter-input" style="flex:1;">
+        <button type="submit" class="btn btn-primary">Go</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{"name":"404","settings":[],"presets":[{"name":"404"}]}
+{% endschema %}
