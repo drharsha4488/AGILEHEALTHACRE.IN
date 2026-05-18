@@ -1,0 +1,62 @@
+<div class="product-tabs">
+  <div class="tab-buttons">
+    <button class="tab-btn active" data-tab="description">Description</button>
+    <button class="tab-btn" data-tab="specifications">Specifications</button>
+    <button class="tab-btn" data-tab="downloads">Downloads</button>
+    <button class="tab-btn" data-tab="surgical">Surgical Technique</button>
+  </div>
+  <div class="tab-panels">
+    <div class="tab-panel active" id="tab-description">
+      <div class="tab-content">{{ product.description }}</div>
+    </div>
+    <div class="tab-panel" id="tab-specifications">
+      <div class="tab-content">
+        {%- if product.metafields.custom.specifications != blank -%}
+          {{ product.metafields.custom.specifications | metafield_tag }}
+        {%- else -%}
+          <p>Specifications not available.</p>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-downloads">
+      <div class="tab-content">
+        {%- if product.metafields.custom.downloads != blank -%}
+          {{ product.metafields.custom.downloads | metafield_tag }}
+        {%- else -%}
+          <p>No downloads available.</p>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="tab-panel" id="tab-surgical">
+      <div class="tab-content">
+        {%- if product.metafields.custom.surgical_technique != blank -%}
+          {{ product.metafields.custom.surgical_technique | metafield_tag }}
+        {%- else -%}
+          <p>Surgical technique guide not available. Contact us for IFU documents.</p>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.product-tabs { margin: 40px 0; }
+.tab-buttons { display: flex; gap: 4px; border-bottom: 2px solid #1a2a40; margin-bottom: 0; flex-wrap: wrap; }
+.tab-btn { background: transparent; border: none; color: #8899aa; padding: 12px 20px; cursor: pointer; font-size: 14px; font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.2s; }
+.tab-btn:hover { color: #fff; }
+.tab-btn.active { color: #00A651; border-bottom-color: #00A651; }
+.tab-panel { display: none; background: #0a1628; border: 1px solid #1a2a40; border-top: none; padding: 24px; border-radius: 0 0 8px 8px; }
+.tab-panel.active { display: block; }
+.tab-content { color: #ccd6e0; line-height: 1.7; }
+</style>
+<script>
+document.querySelectorAll('.tab-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var tab = this.dataset.tab;
+    document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+    document.querySelectorAll('.tab-panel').forEach(function(p){ p.classList.remove('active'); });
+    this.classList.add('active');
+    var panel = document.getElementById('tab-' + tab);
+    if(panel) panel.classList.add('active');
+  });
+});
+</script>
