@@ -1,0 +1,47 @@
+<section class="testimonials section-pad">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Trusted by Surgeons &amp; Hospitals</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"2-hour dispatch is a lifesaver during emergency procedures."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-name">Dr. Rajesh Kumar</div>
+          <div class="testimonial-role">MS Ortho, NIMS Hyderabad</div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"Best Meril distributor in Telangana. Product quality and support are excellent."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-name">Dr. Priya Reddy</div>
+          <div class="testimonial-role">Cardiothoracic Surgeon, Yashoda Hospitals</div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <blockquote class="testimonial-quote">"The quick order matrix saves us hours every week."</blockquote>
+        <div class="testimonial-author">
+          <div class="testimonial-name">Procurement Head</div>
+          <div class="testimonial-role">Apollo Hospitals Hyderabad</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+.testimonials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.testimonial-card { background: #0a1628; border: 1px solid #1a2a40; border-top: 3px solid #00A651; border-radius: 10px; padding: 28px; }
+.testimonial-stars { color: #00A651; font-size: 18px; margin-bottom: 12px; }
+.testimonial-quote { color: #ccd6e0; font-size: 15px; line-height: 1.6; font-style: italic; margin: 0 0 20px; }
+.testimonial-author { border-top: 1px solid #1a2a40; padding-top: 14px; }
+.testimonial-name { color: #fff; font-weight: 600; font-size: 14px; }
+.testimonial-role { color: #8899aa; font-size: 13px; margin-top: 2px; }
+@media(max-width:768px){ .testimonials-grid { grid-template-columns: 1fr; } }
+</style>
+
+{% schema %}
+{"name":"Testimonials","settings":[],"presets":[{"name":"Testimonials"}]}
+{% endschema %}
