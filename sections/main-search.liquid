@@ -1,0 +1,29 @@
+<div class="container" style="padding:32px 24px;">
+  <h1 style="color:#fff;font-size:28px;margin-bottom:24px;">Search</h1>
+  <form action="/search" method="get" class="search-page-form" style="margin-bottom:32px;">
+    <input type="hidden" name="type" value="product">
+    <div style="display:flex;gap:12px;max-width:560px;">
+      <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search products..." class="newsletter-input" style="flex:1;">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+  </form>
+
+  {%- if search.performed -%}
+    {%- if search.results_count == 0 -%}
+      <p style="color:#8899aa;">No results found for "<strong style="color:#fff;">{{ search.terms }}</strong>". Try a different term or browse our <a href="/collections/all" style="color:#00A651;">full catalog</a>.</p>
+    {%- else -%}
+      <p style="color:#8899aa;margin-bottom:24px;">{{ search.results_count }} result{{ search.results_count | pluralize: '', 's' }} for "{{ search.terms }}"</p>
+      <div class="product-grid product-grid--4">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            {%- render 'product-card', product: item -%}
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+
+{% schema %}
+{"name":"Search","settings":[],"presets":[{"name":"Search"}]}
+{% endschema %}
