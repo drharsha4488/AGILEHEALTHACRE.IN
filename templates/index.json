@@ -4,10 +4,10 @@
       "type": "hero",
       "settings": {}
     },
-    "services": {
+    "divisions": {
       "type": "services",
       "settings": {}
     }
   },
-  "order": ["hero", "services"]
+  "order": ["hero", "divisions"]
 }
