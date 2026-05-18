@@ -1,0 +1,83 @@
+<style>
+.site-header {
+  background: #0057A8;
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.site-logo a {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+.site-logo span { color: #00A651; }
+.nav-menu { display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; }
+.nav-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+.nav-menu a:hover { color: #00A651; }
+.header-cta a {
+  background: #00A651;
+  color: #fff;
+  padding: 10px 22px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: background 0.3s;
+}
+.header-cta a:hover { background: #008c44; }
+.hamburger { display: none; flex-direction: column; cursor: pointer; }
+.hamburger span { width: 25px; height: 3px; background: #fff; margin: 3px 0; }
+@media (max-width: 768px) {
+  .nav-menu { display: none; }
+  .hamburger { display: flex; }
+  .header-cta { display: none; }
+}
+</style>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="site-logo">
+      <a href="/">Agile<span>Health</span>Care</a>
+    </div>
+    <nav>
+      <ul class="nav-menu">
+        <li><a href="/">Home</a></li>
+        <li><a href="/collections/all">Products</a></li>
+        <li><a href="/pages/services">Services</a></li>
+        <li><a href="/pages/about">About Us</a></li>
+        <li><a href="/pages/contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="header-cta">
+      <a href="/pages/contact">Get a Quote</a>
+    </div>
+    <div class="hamburger">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": []
+}
+{% endschema %}
