@@ -1,0 +1,25 @@
+{
+  "current": {
+    "color_primary": "#00A651",
+    "color_secondary": "#0057A8",
+    "color_background": "#050d1a",
+    "color_card": "#080f1e",
+    "color_text": "#ffffff",
+    "color_muted": "rgba(255,255,255,0.55)",
+    "color_border": "rgba(255,255,255,0.08)",
+    "color_danger": "#ef4444",
+    "font_heading": "Inter",
+    "font_body": "Inter",
+    "logo_text": "AgileHealthcare",
+    "tagline": "Surgery. Accelerated.",
+    "phone_main": "+91 74162 16262",
+    "phone_whatsapp": "+91 74165 21222",
+    "email": "info@agilehealthcare.in",
+    "address": "1st Floor, Plot No 26, Urmila Devi Complex, Engineers Colony, Hayathnagar, Hyderabad — 500074",
+    "announcement_text": "⚡ 2-Hour OT Dispatch · All 33 Telangana Districts · WhatsApp: +91 74165 21222",
+    "show_announcement": true,
+    "enable_cart_drawer": true,
+    "enable_search_drawer": true,
+    "enable_b2b": true
+  }
+}
