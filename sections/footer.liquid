@@ -1,90 +1,112 @@
 <style>
-.site-footer { background: #1a1a2e; color: #ccc; padding: 60px 20px 20px; }
+.site-footer { background: #030810; color: rgba(255,255,255,0.6); padding: 70px 20px 0; border-top: 1px solid rgba(255,255,255,0.06); }
 .footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding-bottom: 40px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: grid; grid-template-columns: 2.2fr 1fr 1fr 1.4fr;
+  gap: 50px; max-width: 1200px; margin: 0 auto;
+  padding-bottom: 50px; border-bottom: 1px solid rgba(255,255,255,0.07);
 }
-.footer-brand-name { color: #fff; font-size: 22px; font-weight: 800; margin-bottom: 15px; }
-.footer-brand-name span { color: #00A651; }
-.footer-desc { font-size: 14px; line-height: 1.8; margin-bottom: 20px; }
-.footer-contact p { font-size: 14px; margin: 5px 0; }
-.footer-contact a { color: #00A651; text-decoration: none; }
-.footer-heading { color: #fff; font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+.footer-logo { font-size: 20px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+.footer-logo span { color: #00A651; }
+.footer-franchise { font-size: 11px; color: #00A651; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; font-weight: 600; }
+.footer-desc { font-size: 13px; line-height: 1.9; margin-bottom: 22px; }
+.footer-contact-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; }
+.footer-contact-row a { color: #00A651; text-decoration: none; }
+.footer-heading { color: #fff; font-size: 13px; font-weight: 700; margin-bottom: 18px; text-transform: uppercase; letter-spacing: 1.5px; }
 .footer-links { list-style: none; padding: 0; margin: 0; }
-.footer-links li { margin-bottom: 10px; }
-.footer-links a { color: #ccc; text-decoration: none; font-size: 14px; transition: color 0.3s; }
+.footer-links li { margin-bottom: 11px; }
+.footer-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 13px; transition: color 0.2s; }
 .footer-links a:hover { color: #00A651; }
+.dept-item { margin-bottom: 12px; }
+.dept-name { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.35); margin-bottom: 3px; font-weight: 600; }
+.dept-phone { font-size: 13px; color: rgba(255,255,255,0.7); }
+.dept-phone a { color: #fff; text-decoration: none; }
+.cert-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.cert-chip { background: rgba(0,166,81,0.1); border: 1px solid rgba(0,166,81,0.2); color: #4ade80; font-size: 10px; padding: 4px 10px; border-radius: 3px; letter-spacing: 0.5px; font-weight: 600; }
 .footer-bottom {
-  text-align: center;
-  padding-top: 20px;
-  font-size: 13px;
-  color: #888;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 0; font-size: 12px; color: rgba(255,255,255,0.3);
+  flex-wrap: wrap; gap: 10px;
 }
-@media (max-width: 768px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 480px) {
-  .footer-grid { grid-template-columns: 1fr; }
-}
+.footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+.footer-bottom a:hover { color: #fff; }
+@media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 500px) { .footer-grid { grid-template-columns: 1fr; } }
 </style>
 
 <footer class="site-footer">
   <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="footer-brand-name">Agile<span>Health</span>Care</div>
-      <p class="footer-desc">Your trusted partner for orthopedic implants, surgical instruments, and healthcare solutions across Telangana and Andhra Pradesh.</p>
-      <div class="footer-contact">
-        <p>📞 <a href="tel:+917416216262">+91 74162 16262</a></p>
-        <p>📧 <a href="mailto:info@agilehealthacre.in">info@agilehealthacre.in</a></p>
-        <p>📍 Hyderabad, Telangana, India</p>
+    <div>
+      <div class="footer-logo"><span>Agile</span>Healthcare</div>
+      <div class="footer-franchise">Master Franchise · Meril Life Sciences · Telangana</div>
+      <p class="footer-desc">The Surgical Backbone of Telangana. Delivering clinical intelligence and 2-hour OT dispatch support across all 33 districts since 2018.</p>
+      <div class="footer-contact-row">📞 HQ: <a href="tel:+917416216262">+91 74162 16262</a></div>
+      <div class="footer-contact-row">💬 WhatsApp: <a href="https://wa.me/917416521222">+91 74165 21222</a></div>
+      <div class="footer-contact-row">📧 <a href="mailto:info@agilehealthcare.in">info@agilehealthcare.in</a></div>
+      <div class="footer-contact-row" style="align-items:flex-start">📍 1st Floor, Plot No 26, Urmila Devi Complex,<br>Engineers Colony, Hayathnagar, Hyderabad — 500074</div>
+      <div class="cert-row">
+        <span class="cert-chip">CDSCO</span>
+        <span class="cert-chip">ISO 13485</span>
+        <span class="cert-chip">GMP</span>
+        <span class="cert-chip">Master Franchise</span>
       </div>
     </div>
     <div>
-      <h4 class="footer-heading">Quick Links</h4>
+      <h4 class="footer-heading">Navigate</h4>
       <ul class="footer-links">
         <li><a href="/">Home</a></li>
-        <li><a href="/collections/all">Products</a></li>
-        <li><a href="/pages/services">Services</a></li>
-        <li><a href="/pages/about">About Us</a></li>
+        <li><a href="/pages/divisions">Divisions</a></li>
+        <li><a href="/collections/all">Catalog</a></li>
+        <li><a href="/pages/districts">Districts</a></li>
+        <li><a href="/pages/about">About</a></li>
         <li><a href="/pages/contact">Contact</a></li>
       </ul>
     </div>
     <div>
-      <h4 class="footer-heading">Products</h4>
+      <h4 class="footer-heading">Divisions</h4>
       <ul class="footer-links">
-        <li><a href="/collections/implants">Bone Implants</a></li>
-        <li><a href="/collections/instruments">Surgical Tools</a></li>
-        <li><a href="/collections/joint-replacement">Joint Replacement</a></li>
-        <li><a href="/collections/spine">Spine Solutions</a></li>
-        <li><a href="/collections/trauma">Trauma Implants</a></li>
+        <li><a href="/collections/trauma">Trauma & Fracture</a></li>
+        <li><a href="/collections/arthroplasty">Arthroplasty</a></li>
+        <li><a href="/collections/cardiovascular">Cardiovascular</a></li>
+        <li><a href="/collections/endo-surgery">Endo-Surgery</a></li>
+        <li><a href="/collections/diagnostics">Diagnostics</a></li>
+        <li><a href="/collections/all">All Products</a></li>
       </ul>
     </div>
     <div>
-      <h4 class="footer-heading">Support</h4>
-      <ul class="footer-links">
-        <li><a href="/pages/contact">Get a Quote</a></li>
-        <li><a href="/pages/shipping">Shipping Policy</a></li>
-        <li><a href="/pages/returns">Returns Policy</a></li>
-        <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/pages/terms">Terms of Service</a></li>
-      </ul>
+      <h4 class="footer-heading">Department Lines</h4>
+      <div class="dept-item">
+        <div class="dept-name">Dispatch & Delivery</div>
+        <div class="dept-phone"><a href="tel:+917416818183">+91 74168 18183</a></div>
+      </div>
+      <div class="dept-item">
+        <div class="dept-name">Ortho & Joint Orders</div>
+        <div class="dept-phone"><a href="tel:+917416162350">+91 74161 62350</a></div>
+      </div>
+      <div class="dept-item">
+        <div class="dept-name">Consumables & Diagnostics</div>
+        <div class="dept-phone"><a href="tel:+917416416871">+91 74164 16871</a></div>
+      </div>
+      <div class="dept-item">
+        <div class="dept-name">Billing & Finance</div>
+        <div class="dept-phone"><a href="tel:+917416416093">+91 74164 16093</a></div>
+      </div>
+      <div class="dept-item" style="margin-top:18px">
+        <div class="dept-name">Business Hours</div>
+        <div class="dept-phone" style="color:rgba(255,255,255,0.5);font-size:12px">Mon–Sat: 10AM – 7PM<br>WhatsApp 24/7</div>
+      </div>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; {{ "now" | date: "%Y" }} AgileHealthCare. All rights reserved. | Authorized Meril Life Sciences Distributor</p>
+    <span>&copy; {{ "now" | date: "%Y" }} AgileHealthcare Pvt Ltd. All rights reserved.</span>
+    <div style="display:flex;gap:20px">
+      <a href="/pages/privacy-policy">Privacy Policy</a>
+      <a href="/pages/terms">Terms of Service</a>
+      <a href="/pages/shipping">Shipping Policy</a>
+    </div>
   </div>
 </footer>
 
 {% schema %}
-{
-  "name": "Footer",
-  "settings": []
-}
+{ "name": "Footer", "settings": [] }
 {% endschema %}
