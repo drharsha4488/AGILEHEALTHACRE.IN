@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gift Card — {{ shop.name }}</title>
+  <style>
+    body { background: #050d1a; color: #ccd6e0; font-family: Inter, sans-serif; margin: 0; padding: 40px 20px; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .gc-card { background: #0a1628; border: 1px solid #1a2a40; border-radius: 16px; max-width: 480px; width: 100%; padding: 40px; text-align: center; }
+    .gc-logo { font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 32px; }
+    .gc-logo span { color: #00A651; }
+    .gc-heading { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .gc-balance { font-size: 40px; font-weight: 800; color: #00A651; margin-bottom: 32px; }
+    .gc-code-wrap { background: #050d1a; border: 2px dashed #1a2a40; border-radius: 10px; padding: 20px; margin-bottom: 24px; }
+    .gc-code-label { font-size: 12px; color: #8899aa; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .gc-code { font-size: 24px; font-weight: 700; color: #fff; letter-spacing: 4px; font-family: monospace; }
+    .gc-expiry { font-size: 13px; color: #8899aa; margin-bottom: 24px; }
+    .gc-copy-btn { background: #00A651; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="gc-card">
+    <div class="gc-logo">Agile<span>Health</span>Care</div>
+    <div class="gc-heading">Gift Card</div>
+    <div class="gc-balance">{{ gift_card.balance | money }}</div>
+    <div class="gc-code-wrap">
+      <div class="gc-code-label">Gift Card Code</div>
+      <div class="gc-code" id="gc-code">{{ gift_card.code | format_code }}</div>
+    </div>
+    {%- if gift_card.expires_on -%}
+      <div class="gc-expiry">Expires: {{ gift_card.expires_on | date: "%B %d, %Y" }}</div>
+    {%- endif -%}
+    <button class="gc-copy-btn" onclick="navigator.clipboard.writeText(document.getElementById('gc-code').textContent.trim());this.textContent='Copied!';setTimeout(()=>this.textContent='Copy Code',2000)">Copy Code</button>
+    {%- if gift_card.pass_url -%}
+      <div style="margin-top:20px;">
+        <a href="{{ gift_card.pass_url }}" style="color:#8899aa;font-size:13px;">Add to Apple Wallet</a>
+      </div>
+    {%- endif -%}
+  </div>
+</body>
+</html>
