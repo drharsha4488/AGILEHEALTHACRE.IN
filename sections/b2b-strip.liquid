@@ -1,0 +1,28 @@
+{%- unless customer -%}
+<section class="b2b-strip">
+  <div class="container">
+    <div class="b2b-strip-inner">
+      <div class="b2b-text">
+        <h3>Are you a Hospital or Clinic?</h3>
+        <p>Get access to negotiated pricing, Net 30/60 payment terms, and priority dispatch.</p>
+      </div>
+      <div class="b2b-actions">
+        <a href="/account/register" class="btn btn-primary">Apply for B2B Account</a>
+        <a href="/account/login" class="btn btn-outline">Login to B2B Portal</a>
+      </div>
+    </div>
+  </div>
+</section>
+{%- endunless -%}
+<style>
+.b2b-strip { background: linear-gradient(135deg, #0a1628 0%, #0d1f3c 100%); border-top: 1px solid #1a2a40; border-bottom: 1px solid #1a2a40; padding: 40px 0; }
+.b2b-strip-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+.b2b-text h3 { color: #fff; font-size: 22px; margin-bottom: 6px; }
+.b2b-text p { color: #8899aa; font-size: 15px; max-width: 500px; }
+.b2b-actions { display: flex; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+@media(max-width:700px){ .b2b-strip-inner { flex-direction: column; text-align: center; } }
+</style>
+
+{% schema %}
+{"name":"B2B Portal Strip","settings":[],"presets":[{"name":"B2B Portal Strip"}]}
+{% endschema %}
