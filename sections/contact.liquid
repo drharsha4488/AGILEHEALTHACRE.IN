@@ -1,0 +1,109 @@
+<style>
+.contact-section { background: #050d1a; padding: 90px 20px; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; max-width: 1100px; margin: 0 auto; }
+.contact-tag { color: #00A651; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 14px; }
+.contact-title { font-size: 38px; font-weight: 900; color: #fff; margin-bottom: 12px; line-height: 1.15; letter-spacing: -1px; }
+.contact-subtitle { color: rgba(255,255,255,0.5); font-size: 15px; line-height: 1.8; margin-bottom: 35px; }
+.info-block { margin-bottom: 22px; }
+.info-label { font-size: 11px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; font-weight: 600; }
+.info-value { font-size: 15px; color: #fff; font-weight: 500; line-height: 1.6; }
+.info-value a { color: #00A651; text-decoration: none; }
+.dept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
+.dept-box { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); padding: 14px 16px; border-radius: 5px; }
+.dept-name { font-size: 10px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+.dept-phone a { color: #fff; font-weight: 600; font-size: 13px; text-decoration: none; }
+.form-box { background: #080f1e; border: 1px solid rgba(255,255,255,0.07); border-radius: 10px; padding: 38px; }
+.form-title { font-size: 20px; font-weight: 700; color: #fff; margin-bottom: 24px; }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-size: 11px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; font-weight: 600; }
+.form-group input, .form-group textarea, .form-group select {
+  width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 5px; color: #fff; font-size: 14px; padding: 11px 15px; font-family: inherit; transition: border-color 0.2s;
+}
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: #00A651; }
+.form-group textarea { height: 110px; resize: vertical; }
+.form-group select option { background: #080f1e; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.btn-submit { width: 100%; background: #00A651; color: #fff; border: none; padding: 14px; border-radius: 5px; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s; margin-top: 5px; }
+.btn-submit:hover { background: #008c44; }
+@media(max-width:768px){.contact-grid,.form-row,.dept-grid{grid-template-columns:1fr;}.contact-title{font-size:28px;}}
+</style>
+
+<section class="contact-section">
+  <div class="contact-grid">
+    <div>
+      <div class="contact-tag">Get In Touch</div>
+      <h2 class="contact-title">Request OT Support or a Quote</h2>
+      <p class="contact-subtitle">Emergency dispatch available 24/7 via WhatsApp. For orders and enquiries, reach our specialist department lines.</p>
+      <div class="info-block">
+        <div class="info-label">Headquarters</div>
+        <div class="info-value">1st Floor, Plot No 26, Urmila Devi Complex,<br>Engineers Colony, Hayathnagar,<br>Hyderabad, Telangana — 500074</div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Main Line</div>
+        <div class="info-value"><a href="tel:+917416216262">+91 74162 16262</a></div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">WhatsApp — 24/7 Dispatch</div>
+        <div class="info-value"><a href="https://wa.me/917416521222">+91 74165 21222</a></div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Email</div>
+        <div class="info-value"><a href="mailto:info@agilehealthcare.in">info@agilehealthcare.in</a></div>
+      </div>
+      <div class="info-block">
+        <div class="info-label">Business Hours</div>
+        <div class="info-value">Mon–Sat: 10:00 AM – 7:00 PM &nbsp;|&nbsp; WhatsApp 24/7</div>
+      </div>
+      <div class="dept-grid">
+        <div class="dept-box"><div class="dept-name">Dispatch &amp; Delivery</div><div class="dept-phone"><a href="tel:+917416818183">+91 74168 18183</a></div></div>
+        <div class="dept-box"><div class="dept-name">Ortho &amp; Joint Orders</div><div class="dept-phone"><a href="tel:+917416162350">+91 74161 62350</a></div></div>
+        <div class="dept-box"><div class="dept-name">Consumables &amp; Diagnostics</div><div class="dept-phone"><a href="tel:+917416416871">+91 74164 16871</a></div></div>
+        <div class="dept-box"><div class="dept-name">Billing &amp; Finance</div><div class="dept-phone"><a href="tel:+917416416093">+91 74164 16093</a></div></div>
+      </div>
+    </div>
+    <div>
+      <div class="form-box">
+        <div class="form-title">Send an Enquiry</div>
+        {% form "contact" %}
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input type="text" name="contact[name]" placeholder="Dr. / Hospital Name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone</label>
+              <input type="tel" name="contact[phone]" placeholder="+91 XXXXX XXXXX" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" name="contact[email]" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label>Division / Purpose</label>
+            <select name="contact[body_type]">
+              <option value="">Select...</option>
+              <option>Emergency OT Support</option>
+              <option>Trauma &amp; Fracture</option>
+              <option>Arthroplasty</option>
+              <option>Cardiovascular</option>
+              <option>Endo-Surgery</option>
+              <option>Diagnostics</option>
+              <option>General Enquiry</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea name="contact[body]" placeholder="Describe your requirement, device name, quantity, or urgency..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Send Enquiry</button>
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Contact Section", "settings": [] }
+{% endschema %}
