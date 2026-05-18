@@ -1,0 +1,68 @@
+{
+  "general": {
+    "search": { "search": "Search", "search_for": "Search for", "close": "Close", "placeholder": "Search products..." },
+    "404": { "title": "Page not found", "body": "The page you requested does not exist.", "continue": "Continue shopping" },
+    "password": { "title": "Opening soon", "message": "Use password to access", "submit": "Enter" },
+    "pagination": { "previous": "Previous", "next": "Next", "current_page": "Page {{ current }}" }
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "continue_shopping": "Continue shopping",
+    "subtotal": "Subtotal",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "update": "Update Cart",
+    "remove": "Remove",
+    "note": "Order Note",
+    "gst": "GST & shipping calculated at checkout",
+    "item_count": { "one": "{{ count }} item", "other": "{{ count }} items" },
+    "quantity": "Quantity",
+    "items_in_cart": "Items in your cart"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Add to Cart",
+      "sold_out": "Sold Out",
+      "unavailable": "Unavailable",
+      "request_quote": "Request a Quote",
+      "view_details": "View Details",
+      "description": "Description",
+      "specifications": "Specifications",
+      "downloads": "Downloads & Documents",
+      "surgical_technique": "Surgical Technique",
+      "quantity": "Quantity",
+      "vendor": "Brand",
+      "sku": "SKU",
+      "availability": "Availability",
+      "in_stock": "In Stock",
+      "low_stock": "Low Stock",
+      "out_of_stock": "Out of Stock",
+      "share": "Share",
+      "related_title": "Related Products",
+      "price": { "sale": "Sale", "from": "From", "regular_price": "Regular price", "sale_price": "Sale price" }
+    },
+    "facets": { "filter_by": "Filter by", "sort_by": "Sort by", "clear_all": "Clear All", "results": "{{ count }} results" },
+    "sort": {
+      "featured": "Featured",
+      "price_asc": "Price: Low to High",
+      "price_desc": "Price: High to Low",
+      "title_asc": "A–Z",
+      "title_desc": "Z–A",
+      "date_desc": "Newest First"
+    }
+  },
+  "customer": {
+    "login": { "title": "B2B Portal Login", "email": "Email", "password": "Password", "submit": "Sign In", "forgot": "Forgot password?", "create": "Create account", "guest": "Continue as guest" },
+    "register": { "title": "Create B2B Account", "name": "Full Name", "email": "Email", "password": "Password", "submit": "Create Account", "login": "Already have an account?" },
+    "account": { "title": "My Account", "orders": "Order History", "addresses": "Addresses", "logout": "Sign Out", "pricing_tier": "Your Pricing Tier", "net_terms": "Net Payment Terms" },
+    "order": { "title": "Order", "date": "Date", "status": "Status", "total": "Total", "items": "Items" },
+    "addresses": { "title": "My Addresses", "add": "Add Address", "default": "Default", "edit": "Edit", "delete": "Delete" },
+    "reset_password": { "title": "Reset Password", "submit": "Reset", "cancel": "Cancel" },
+    "activate_account": { "title": "Activate Account", "submit": "Activate", "cancel": "Decline" }
+  },
+  "newsletter": { "title": "Stay Updated", "placeholder": "Your email address", "submit": "Subscribe", "success": "Thank you for subscribing!" },
+  "accessibility": { "skip_to_content": "Skip to content", "close_modal": "Close", "open_menu": "Open menu", "close_menu": "Close menu", "cart_count": "Cart ({{ count }})" },
+  "blogs": { "article": { "read_more": "Read More", "by_author": "By {{ author }}", "comments": "Comments" } },
+  "sections": { "header": { "menu": "Menu" }, "footer": { "social": "Follow Us" } }
+}
