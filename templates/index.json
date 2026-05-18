@@ -1,13 +1,1 @@
-{
-  "sections": {
-    "hero": {
-      "type": "hero",
-      "settings": {}
-    },
-    "divisions": {
-      "type": "services",
-      "settings": {}
-    }
-  },
-  "order": ["hero", "divisions"]
-}
+{"sections":{"announcement":{"type":"announcement-bar","settings":{}},"hero":{"type":"hero","settings":{}},"featured":{"type":"featured-collection","settings":{"product_count":8}},"b2b":{"type":"b2b-strip","settings":{}},"divisions":{"type":"services","settings":{}},"image-text":{"type":"image-with-text","settings":{}},"testimonials":{"type":"testimonials","settings":{}},"media":{"type":"media-events","settings":{}},"newsletter":{"type":"newsletter","settings":{}}},"order":["announcement","hero","b2b","featured","divisions","image-text","testimonials","media","newsletter"]}
