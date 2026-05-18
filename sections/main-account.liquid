@@ -1,0 +1,86 @@
+{%- if customer -%}
+<div class="container" style="padding:32px 24px;">
+  <div class="account-dashboard">
+    <div style="margin-bottom:32px;">
+      <h1 style="color:#fff;font-size:28px;">Welcome back, {{ customer.first_name }}!</h1>
+      <p style="color:#8899aa;">Manage your orders, addresses and B2B account settings.</p>
+    </div>
+
+    <div class="account-cards-row">
+      {%- assign tier = 'Standard' -%}
+      {%- if customer.tags contains 'platinum' -%}{%- assign tier = 'Platinum' -%}{%- assign tier_color = '#b8b8ff' -%}
+      {%- elsif customer.tags contains 'gold' -%}{%- assign tier = 'Gold' -%}{%- assign tier_color = '#ffd700' -%}
+      {%- elsif customer.tags contains 'silver' -%}{%- assign tier = 'Silver' -%}{%- assign tier_color = '#aaa' -%}
+      {%- else -%}{%- assign tier_color = '#00A651' -%}
+      {%- endif -%}
+      <div class="b2b-tier-card" style="border-top-color:{{ tier_color }};">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8899aa;margin-bottom:6px;">B2B Tier</div>
+        <div style="font-size:24px;font-weight:800;color:{{ tier_color }};">{{ tier }}</div>
+      </div>
+
+      {%- assign payment_terms = 'Standard' -%}
+      {%- if customer.tags contains 'net60' -%}{%- assign payment_terms = 'Net 60' -%}
+      {%- elsif customer.tags contains 'net30' -%}{%- assign payment_terms = 'Net 30' -%}
+      {%- endif -%}
+      <div class="b2b-tier-card">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8899aa;margin-bottom:6px;">Payment Terms</div>
+        <div style="font-size:24px;font-weight:800;color:#00A651;">{{ payment_terms }}</div>
+      </div>
+
+      <div class="b2b-tier-card">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8899aa;margin-bottom:6px;">Total Orders</div>
+        <div style="font-size:24px;font-weight:800;color:#fff;">{{ customer.orders_count }}</div>
+      </div>
+    </div>
+
+    <div class="account-section">
+      <h2 style="color:#fff;font-size:18px;margin-bottom:16px;">Recent Orders</h2>
+      {%- if customer.orders.size > 0 -%}
+        <table class="orders-table">
+          <thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Total</th><th></th></tr></thead>
+          <tbody>
+            {%- for order in customer.orders limit: 5 -%}
+              <tr>
+                <td><a href="{{ order.customer_url }}" style="color:#00A651;">{{ order.name }}</a></td>
+                <td>{{ order.created_at | date: "%b %d, %Y" }}</td>
+                <td><span class="order-status order-status--{{ order.fulfillment_status }}">{{ order.fulfillment_status | replace: '_', ' ' | capitalize }}</span></td>
+                <td>{{ order.total_price | money }}</td>
+                <td><a href="{{ order.customer_url }}" style="color:#8899aa;font-size:13px;">View</a></td>
+              </tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+      {%- else -%}
+        <p style="color:#8899aa;">No orders yet. <a href="/collections/all" style="color:#00A651;">Start shopping</a></p>
+      {%- endif -%}
+    </div>
+
+    <div class="account-quick-links">
+      <a href="/account/orders" class="quick-link-btn">View All Orders</a>
+      <a href="/account/addresses" class="quick-link-btn">Manage Addresses</a>
+      <a href="/collections/all" class="quick-link-btn">Continue Shopping</a>
+      <a href="/account/logout" class="quick-link-btn quick-link-btn--danger">Sign Out</a>
+    </div>
+  </div>
+</div>
+{%- endif -%}
+
+<style>
+.account-cards-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 32px; }
+.b2b-tier-card { background: #0a1628; border: 1px solid #1a2a40; border-top: 3px solid #00A651; border-radius: 10px; padding: 20px; }
+.account-section { margin-bottom: 32px; }
+.orders-table { width: 100%; border-collapse: collapse; }
+.orders-table th { text-align: left; padding: 10px 14px; font-size: 12px; text-transform: uppercase; color: #8899aa; background: #050d1a; letter-spacing: 0.5px; }
+.orders-table td { padding: 12px 14px; border-top: 1px solid #1a2a40; color: #ccd6e0; font-size: 14px; }
+.order-status { font-size: 12px; padding: 3px 8px; border-radius: 20px; background: rgba(0,166,81,0.1); color: #00A651; }
+.account-quick-links { display: flex; gap: 12px; flex-wrap: wrap; }
+.quick-link-btn { background: #0a1628; border: 1px solid #1a2a40; color: #ccd6e0; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-size: 14px; transition: all 0.2s; }
+.quick-link-btn:hover { border-color: #00A651; color: #00A651; }
+.quick-link-btn--danger { color: #ff4444; border-color: rgba(255,68,68,0.3); }
+.quick-link-btn--danger:hover { border-color: #ff4444; background: rgba(255,68,68,0.1); color: #ff4444; }
+@media(max-width:600px){ .account-cards-row { grid-template-columns: 1fr; } }
+</style>
+
+{% schema %}
+{"name":"Account","settings":[],"presets":[{"name":"Account"}]}
+{% endschema %}
