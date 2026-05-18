@@ -1,0 +1,61 @@
+<style>
+.about-section { background: #050d1a; padding: 90px 20px; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; max-width: 1100px; margin: 0 auto; align-items: center; }
+.about-tag { color: #00A651; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 14px; }
+.about-title { font-size: 40px; font-weight: 900; color: #fff; margin-bottom: 20px; line-height: 1.15; letter-spacing: -1px; }
+.about-title span { color: #00A651; }
+.about-body { color: rgba(255,255,255,0.6); font-size: 15px; line-height: 1.9; margin-bottom: 20px; }
+.timeline { border-left: 2px solid rgba(0,166,81,0.3); padding-left: 24px; margin-top: 10px; }
+.timeline-item { margin-bottom: 22px; position: relative; }
+.timeline-item::before { content:""; position:absolute; left:-30px; top:6px; width:10px; height:10px; border-radius:50%; background:#00A651; }
+.timeline-year { font-size: 12px; color: #00A651; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.timeline-event { font-size: 14px; color: rgba(255,255,255,0.7); margin-top: 3px; }
+.stats-panel { background: #080f1e; border: 1px solid rgba(255,255,255,0.07); border-radius: 8px; padding: 40px; }
+.stats-panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.stat-box { text-align: center; padding: 20px; border: 1px solid rgba(255,255,255,0.05); border-radius: 6px; }
+.stat-box-num { font-size: 34px; font-weight: 900; color: #00A651; line-height: 1; }
+.stat-box-label { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
+.cred-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 25px; }
+.cred-chip { background: rgba(0,166,81,0.08); border: 1px solid rgba(0,166,81,0.15); color: rgba(255,255,255,0.7); font-size: 11px; padding: 5px 12px; border-radius: 3px; }
+@media(max-width:768px){.about-grid,.stats-panel-grid{grid-template-columns:1fr;}.about-title{font-size:28px;}}
+</style>
+
+<section class="about-section">
+  <div class="about-grid">
+    <div>
+      <div class="about-tag">Our Story</div>
+      <h2 class="about-title">From Trauma Specialist to <span>Telangana's Surgical Backbone</span></h2>
+      <p class="about-body">Founded in 2018 as Agile Orthopedics, we began as a regional trauma specialist in Hyderabad. By 2020, we became the authorized Master Franchise for Meril Life Sciences — and by 2022, our logistics network covered all 33 Telangana districts.</p>
+      <p class="about-body">Today, Agile Healthcare bridges the distance between global medtech innovation and district-level operating theatres, with 1,202+ medical devices and a 2-hour emergency dispatch guarantee statewide.</p>
+      <div class="timeline">
+        <div class="timeline-item"><div class="timeline-year">2018</div><div class="timeline-event">Founded as Agile Orthopedics — regional trauma specialist, Hyderabad</div></div>
+        <div class="timeline-item"><div class="timeline-year">2020</div><div class="timeline-event">Authorized Master Franchise for Meril Life Sciences</div></div>
+        <div class="timeline-item"><div class="timeline-year">2022</div><div class="timeline-event">Logistics network expanded to all 33 Telangana districts</div></div>
+        <div class="timeline-item"><div class="timeline-year">2024</div><div class="timeline-event">Launched Surgical Intelligence Platform</div></div>
+        <div class="timeline-item"><div class="timeline-year">2026</div><div class="timeline-event">Target: Rs.100 Crore revenue with 1,202+ medical devices</div></div>
+      </div>
+    </div>
+    <div>
+      <div class="stats-panel">
+        <div class="stats-panel-grid">
+          <div class="stat-box"><div class="stat-box-num">1,202+</div><div class="stat-box-label">Medical Devices</div></div>
+          <div class="stat-box"><div class="stat-box-num">33</div><div class="stat-box-label">Districts Covered</div></div>
+          <div class="stat-box"><div class="stat-box-num">2 Hr</div><div class="stat-box-label">OT Dispatch SLA</div></div>
+          <div class="stat-box"><div class="stat-box-num">16</div><div class="stat-box-label">Clinical Divisions</div></div>
+        </div>
+        <div class="cred-row">
+          <span class="cred-chip">CDSCO Licensed</span>
+          <span class="cred-chip">ISO 13485:2016</span>
+          <span class="cred-chip">GMP Certified</span>
+          <span class="cred-chip">CIN Registered Pvt Ltd</span>
+          <span class="cred-chip">Surgical Support Certified</span>
+          <span class="cred-chip">Verified Master Distributor</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "About Section", "settings": [] }
+{% endschema %}
