@@ -1,0 +1,40 @@
+<style>
+.product-page { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+.product-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.product-image img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+.product-title { font-size: 28px; font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+.product-price { font-size: 24px; color: #0057A8; font-weight: 700; margin-bottom: 20px; }
+.product-desc { color: #555; line-height: 1.8; margin-bottom: 30px; }
+.add-to-cart {
+  background: #0057A8;
+  color: #fff;
+  border: none;
+  padding: 15px 40px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.add-to-cart:hover { background: #003d7a; }
+@media (max-width: 768px) { .product-grid { grid-template-columns: 1fr; } }
+</style>
+
+<div class="product-page">
+  <div class="product-grid">
+    <div class="product-image">
+      {% if product.featured_image %}
+        <img src="{{ product.featured_image | img_url: "large" }}" alt="{{ product.title }}">
+      {% endif %}
+    </div>
+    <div class="product-info">
+      <h1 class="product-title">{{ product.title }}</h1>
+      <div class="product-price">{{ product.price | money }}</div>
+      <div class="product-desc">{{ product.description }}</div>
+      {% form "product", product %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+        <button type="submit" class="add-to-cart">Add to Cart</button>
+      {% endform %}
+    </div>
+  </div>
+</div>
