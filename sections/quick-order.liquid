@@ -1,0 +1,119 @@
+{%- assign qo_collection = collections[section.settings.collection] -%}
+<div class="container" style="padding:32px 24px;">
+  <div class="qo-header">
+    <h1>Quick Order — Bulk Ordering Matrix</h1>
+    <p>Add multiple products and variants to your cart in one go. Enter quantities and click "Add All to Cart".</p>
+  </div>
+
+  <form id="quick-order-form">
+    {%- if qo_collection != blank -%}
+      {%- for product in qo_collection.products -%}
+        <div class="qo-product">
+          <div class="qo-product-title">{{ product.title }}</div>
+          <table class="qo-table">
+            <thead>
+              <tr>
+                <th>Variant</th>
+                <th>SKU</th>
+                <th>Price</th>
+                <th>Qty</th>
+                <th>Line Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for variant in product.variants -%}
+                <tr class="qo-row" data-variant-id="{{ variant.id }}" data-price="{{ variant.price }}">
+                  <td>{{ variant.title }}</td>
+                  <td class="qo-sku">{{ variant.sku | default: '—' }}</td>
+                  <td class="qo-price">{{ variant.price | money }}</td>
+                  <td><input type="number" class="qo-qty" data-variant-qty="{{ variant.id }}" min="0" value="0" placeholder="0"></td>
+                  <td class="qo-line-total" data-line="{{ variant.id }}">—</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <p style="color:#8899aa;">Please select a collection in theme editor to populate the quick order table.</p>
+    {%- endif -%}
+
+    <div class="qo-footer">
+      <div class="qo-total-wrap">Order Total: <strong id="qo-total">₹0.00</strong></div>
+      <button type="button" class="btn btn-primary" data-quick-submit>Add All to Cart</button>
+    </div>
+  </form>
+</div>
+
+<style>
+.qo-header { margin-bottom: 32px; }
+.qo-header h1 { font-size: 28px; color: #fff; margin-bottom: 8px; }
+.qo-header p { color: #8899aa; }
+.qo-product { margin-bottom: 32px; background: #0a1628; border: 1px solid #1a2a40; border-radius: 10px; overflow: hidden; }
+.qo-product-title { padding: 14px 20px; background: #080f1e; font-size: 15px; font-weight: 600; color: #fff; border-bottom: 1px solid #1a2a40; }
+.qo-table { width: 100%; border-collapse: collapse; }
+.qo-table th { text-align: left; padding: 10px 16px; font-size: 12px; text-transform: uppercase; color: #8899aa; letter-spacing: 0.5px; background: #050d1a; }
+.qo-table td { padding: 12px 16px; border-top: 1px solid #1a2a40; color: #ccd6e0; font-size: 14px; }
+.qo-qty { width: 70px; background: #050d1a; border: 1px solid #1a2a40; color: #fff; padding: 6px 8px; border-radius: 6px; text-align: center; }
+.qo-price { color: #00A651; font-weight: 600; }
+.qo-line-total { color: #fff; font-weight: 600; }
+.qo-footer { display: flex; align-items: center; justify-content: flex-end; gap: 24px; padding: 20px 0; border-top: 2px solid #1a2a40; margin-top: 16px; }
+.qo-total-wrap { color: #ccd6e0; font-size: 16px; }
+.qo-total-wrap strong { color: #00A651; font-size: 20px; }
+@media(max-width:600px){ .qo-table { font-size: 12px; } .qo-table th, .qo-table td { padding: 8px; } }
+</style>
+
+<script>
+(function(){
+  var form = document.getElementById('quick-order-form');
+  if(!form) return;
+
+  function getPrice(variantId){ return parseFloat((form.querySelector('[data-variant-id="'+variantId+'"]') || {}).dataset.price || 0)/100; }
+
+  function updateTotals(){
+    var grand = 0;
+    form.querySelectorAll('.qo-row').forEach(function(row){
+      var vid = row.dataset.variantId;
+      var qty = parseInt(row.querySelector('.qo-qty').value)||0;
+      var price = parseFloat(row.dataset.price||0)/100;
+      var line = qty * price;
+      grand += line;
+      var lineEl = row.querySelector('.qo-line-total');
+      if(lineEl) lineEl.textContent = qty > 0 ? '₹'+line.toFixed(2) : '—';
+    });
+    var tot = document.getElementById('qo-total');
+    if(tot) tot.textContent = '₹'+grand.toFixed(2);
+  }
+
+  form.addEventListener('input', updateTotals);
+
+  form.querySelector('[data-quick-submit]').addEventListener('click', function(){
+    var items = [];
+    form.querySelectorAll('.qo-row').forEach(function(row){
+      var qty = parseInt(row.querySelector('.qo-qty').value)||0;
+      if(qty > 0) items.push({ id: parseInt(row.dataset.variantId), quantity: qty });
+    });
+    if(!items.length){ alert('Please enter quantities for at least one variant.'); return; }
+    var btn = this; btn.disabled = true; btn.textContent = 'Adding...';
+    fetch('/cart/add.js',{ method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ items: items }) })
+      .then(function(r){ return r.json(); })
+      .then(function(){
+        document.dispatchEvent(new Event('cart:updated'));
+        var drawer = document.getElementById('cart-drawer');
+        if(drawer){ drawer.classList.add('is-open'); drawer.removeAttribute('aria-hidden'); document.body.style.overflow='hidden'; }
+        btn.textContent = 'Added!';
+        setTimeout(function(){ btn.disabled=false; btn.textContent='Add All to Cart'; },2000);
+      }).catch(function(){ btn.disabled=false; btn.textContent='Add All to Cart'; alert('Error adding items to cart.'); });
+  });
+})();
+</script>
+
+{% schema %}
+{
+  "name": "Quick Order",
+  "settings": [
+    {"type":"collection","id":"collection","label":"Collection to display"}
+  ],
+  "presets": [{"name":"Quick Order"}]
+}
+{% endschema %}
