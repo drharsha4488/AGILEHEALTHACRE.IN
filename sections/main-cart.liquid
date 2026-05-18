@@ -1,0 +1,78 @@
+<div class="container" style="padding:32px 24px;">
+  <nav class="breadcrumbs"><a href="/">Home</a> &rsaquo; <span>Cart</span></nav>
+  <h1 style="color:#fff;font-size:28px;margin-bottom:24px;">Your Cart</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <div class="cart-empty" style="text-align:center;padding:60px 20px;">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#1a2a40" stroke-width="1.5" style="margin-bottom:16px;"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <h2 style="color:#8899aa;font-size:20px;margin-bottom:8px;">Your cart is empty</h2>
+      <p style="color:#8899aa;margin-bottom:24px;">Add some products to get started.</p>
+      <a href="/collections/all" class="btn btn-primary">Browse Catalog</a>
+    </div>
+  {%- else -%}
+    <div class="cart-page-wrap">
+      <div class="cart-items">
+        {%- form 'cart', cart, id: 'cart-form' -%}
+          {%- for item in cart.items -%}
+            <div class="cart-item">
+              <a href="{{ item.url }}" class="cart-item-img" style="background-image:url('{{ item.image | image_url: width: 200 }}')"></a>
+              <div class="cart-item-info">
+                <a href="{{ item.url }}" class="cart-item-title">{{ item.title }}</a>
+                {%- if item.variant.title != 'Default Title' -%}
+                  <div class="cart-item-variant">{{ item.variant.title }}</div>
+                {%- endif -%}
+                <div class="cart-item-price">{{ item.price | money }}</div>
+                <div class="cart-item-actions">
+                  <div class="qty-control">
+                    <button type="button" class="qty-btn" data-decrease data-line="{{ forloop.index }}">−</button>
+                    <input type="number" class="qty-input" name="updates[]" value="{{ item.quantity }}" min="0" data-line="{{ forloop.index }}">
+                    <button type="button" class="qty-btn" data-increase data-line="{{ forloop.index }}">+</button>
+                  </div>
+                  <a href="{{ item.url_to_remove }}" class="cart-item-remove">Remove</a>
+                </div>
+              </div>
+              <div class="cart-item-line-total">{{ item.line_price | money }}</div>
+            </div>
+          {%- endfor -%}
+          <button type="submit" name="update" class="btn btn-outline" style="margin-top:16px;">Update Cart</button>
+        {%- endform -%}
+      </div>
+
+      <div class="cart-summary">
+        <div class="cart-summary-card">
+          <h3>Order Summary</h3>
+          <div class="cart-summary-row"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+          <p class="cart-gst-note">* GST included where applicable. Final tax calculated at checkout.</p>
+          <a href="/checkout" class="btn btn-primary btn-full">Proceed to Checkout</a>
+          <a href="/collections/all" class="cart-continue">Continue Shopping</a>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+<style>
+.cart-page-wrap { display: grid; grid-template-columns: 1fr 360px; gap: 40px; align-items: start; }
+.cart-item { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid #1a2a40; }
+.cart-item-img { width: 90px; height: 90px; border-radius: 8px; background-size: cover; background-position: center; background-color: #1a2a40; flex-shrink: 0; }
+.cart-item-info { flex: 1; }
+.cart-item-title { color: #fff; font-weight: 600; font-size: 15px; text-decoration: none; display: block; margin-bottom: 4px; }
+.cart-item-title:hover { color: #00A651; }
+.cart-item-variant { color: #8899aa; font-size: 13px; margin-bottom: 6px; }
+.cart-item-price { color: #00A651; font-size: 14px; margin-bottom: 10px; }
+.cart-item-actions { display: flex; align-items: center; gap: 16px; }
+.cart-item-remove { color: #ff4444; font-size: 13px; text-decoration: none; }
+.cart-item-line-total { color: #fff; font-size: 15px; font-weight: 600; flex-shrink: 0; }
+.cart-summary-card { background: #0a1628; border: 1px solid #1a2a40; border-radius: 10px; padding: 24px; position: sticky; top: 80px; }
+.cart-summary-card h3 { color: #fff; font-size: 18px; margin-bottom: 16px; }
+.cart-summary-row { display: flex; justify-content: space-between; color: #ccd6e0; font-size: 15px; margin-bottom: 12px; }
+.cart-gst-note { color: #8899aa; font-size: 12px; margin-bottom: 20px; }
+.btn-full { display: block; width: 100%; text-align: center; box-sizing: border-box; }
+.cart-continue { display: block; text-align: center; color: #8899aa; font-size: 13px; margin-top: 12px; text-decoration: none; }
+.cart-continue:hover { color: #00A651; }
+@media(max-width:900px){ .cart-page-wrap { grid-template-columns: 1fr; } }
+</style>
+
+{% schema %}
+{"name":"Cart","settings":[],"presets":[{"name":"Cart"}]}
+{% endschema %}
