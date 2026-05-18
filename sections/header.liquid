@@ -1,83 +1,80 @@
 <style>
+.announcement-bar {
+  background: #00A651; color: #fff;
+  text-align: center; padding: 9px;
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+}
+.announcement-bar a { color: #fff; text-decoration: underline; }
 .site-header {
-  background: #0057A8;
-  padding: 15px 0;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background: rgba(5,13,26,0.97);
+  backdrop-filter: blur(10px);
+  padding: 0;
+  position: sticky; top: 0; z-index: 999;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 .header-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  max-width: 1280px; margin: 0 auto; padding: 0 24px;
+  display: flex; justify-content: space-between; align-items: center;
+  height: 65px;
 }
-.site-logo a {
-  color: #fff;
-  font-size: 24px;
-  font-weight: 700;
-  text-decoration: none;
-  letter-spacing: 1px;
+.site-logo a { color: #fff; font-size: 20px; font-weight: 900; text-decoration: none; letter-spacing: -0.5px; }
+.site-logo a span { color: #00A651; }
+.site-logo .tagline { font-size: 9px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; display: block; margin-top: -3px; }
+.nav-menu { display: flex; list-style: none; gap: 0; margin: 0; padding: 0; }
+.nav-menu > li { position: relative; }
+.nav-menu > li > a {
+  color: rgba(255,255,255,0.75); text-decoration: none;
+  font-size: 14px; font-weight: 500; padding: 0 18px;
+  height: 65px; display: flex; align-items: center;
+  transition: color 0.2s; letter-spacing: 0.3px;
 }
-.site-logo span { color: #00A651; }
-.nav-menu { display: flex; list-style: none; gap: 30px; margin: 0; padding: 0; }
-.nav-menu a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 15px;
-  font-weight: 500;
-  transition: color 0.3s;
+.nav-menu > li > a:hover { color: #fff; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.header-phone { color: rgba(255,255,255,0.6); font-size: 13px; font-weight: 500; }
+.header-phone a { color: #00A651; text-decoration: none; font-weight: 700; }
+.btn-dispatch {
+  background: #00A651; color: #fff;
+  padding: 9px 20px; border-radius: 4px;
+  font-weight: 700; font-size: 13px; letter-spacing: 0.5px;
+  text-decoration: none; transition: background 0.2s; white-space: nowrap;
 }
-.nav-menu a:hover { color: #00A651; }
-.header-cta a {
-  background: #00A651;
-  color: #fff;
-  padding: 10px 22px;
-  border-radius: 25px;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 14px;
-  transition: background 0.3s;
-}
-.header-cta a:hover { background: #008c44; }
-.hamburger { display: none; flex-direction: column; cursor: pointer; }
-.hamburger span { width: 25px; height: 3px; background: #fff; margin: 3px 0; }
-@media (max-width: 768px) {
+.btn-dispatch:hover { background: #008c44; }
+.hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+.hamburger span { width: 22px; height: 2px; background: #fff; display: block; transition: 0.3s; }
+@media (max-width: 900px) {
   .nav-menu { display: none; }
   .hamburger { display: flex; }
-  .header-cta { display: none; }
+  .header-phone { display: none; }
 }
 </style>
 
+<div class="announcement-bar">
+  ⚡ 2-Hour OT Dispatch across all 33 Telangana Districts &nbsp;|&nbsp;
+  WhatsApp: <a href="https://wa.me/917416521222">+91 74165 21222</a>
+</div>
 <header class="site-header">
   <div class="header-inner">
     <div class="site-logo">
-      <a href="/">Agile<span>Health</span>Care</a>
+      <a href="/"><span>Agile</span>Healthcare<span class="tagline">Master Franchise · Meril Life Sciences</span></a>
     </div>
     <nav>
       <ul class="nav-menu">
         <li><a href="/">Home</a></li>
-        <li><a href="/collections/all">Products</a></li>
-        <li><a href="/pages/services">Services</a></li>
-        <li><a href="/pages/about">About Us</a></li>
+        <li><a href="/pages/divisions">Divisions</a></li>
+        <li><a href="/collections/all">Catalog</a></li>
+        <li><a href="/pages/districts">Districts</a></li>
+        <li><a href="/pages/about">About</a></li>
         <li><a href="/pages/contact">Contact</a></li>
       </ul>
     </nav>
-    <div class="header-cta">
-      <a href="/pages/contact">Get a Quote</a>
+    <div class="header-actions">
+      <div class="header-phone">HQ: <a href="tel:+917416216262">+91 74162 16262</a></div>
+      <a href="/pages/contact" class="btn-dispatch">Request OT Support</a>
     </div>
-    <div class="hamburger">
-      <span></span><span></span><span></span>
-    </div>
+    <div class="hamburger"><span></span><span></span><span></span></div>
   </div>
 </header>
 
 {% schema %}
-{
-  "name": "Header",
-  "settings": []
-}
+{ "name": "Header", "settings": [] }
 {% endschema %}
