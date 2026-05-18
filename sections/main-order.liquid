@@ -1,0 +1,61 @@
+{%- assign o = order -%}
+<div class="container" style="padding:32px 24px;max-width:900px;">
+  <nav class="breadcrumbs" style="margin-bottom:24px;">
+    <a href="/account">Account</a> &rsaquo; <span>Order {{ o.name }}</span>
+  </nav>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:16px;margin-bottom:28px;">
+    <div>
+      <h1 style="color:#fff;font-size:24px;margin-bottom:4px;">Order {{ o.name }}</h1>
+      <p style="color:#8899aa;font-size:14px;">Placed on {{ o.created_at | date: "%B %d, %Y" }}</p>
+    </div>
+    <span class="order-status">{{ o.fulfillment_status | replace: '_',' ' | capitalize }}</span>
+  </div>
+
+  <table class="orders-table" style="margin-bottom:32px;">
+    <thead><tr><th>Product</th><th>Variant</th><th>Qty</th><th>Price</th></tr></thead>
+    <tbody>
+      {%- for line in o.line_items -%}
+        <tr>
+          <td style="display:flex;gap:12px;align-items:center;">
+            {%- if line.image -%}<div style="width:48px;height:48px;border-radius:6px;background:url('{{ line.image | image_url: width: 100 }}') center/cover #1a2a40;flex-shrink:0;"></div>{%- endif -%}
+            <a href="{{ line.product.url }}" style="color:#fff;text-decoration:none;">{{ line.title }}</a>
+          </td>
+          <td style="color:#8899aa;font-size:13px;">{{ line.variant.title }}</td>
+          <td style="color:#ccd6e0;">{{ line.quantity }}</td>
+          <td style="color:#00A651;font-weight:600;">{{ line.final_line_price | money }}</td>
+        </tr>
+      {%- endfor -%}
+    </tbody>
+  </table>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+    <div>
+      <h3 style="color:#fff;margin-bottom:12px;">Shipping Address</h3>
+      {%- if o.shipping_address -%}
+        <address style="color:#8899aa;font-size:14px;font-style:normal;line-height:1.8;">
+          {{ o.shipping_address.name }}<br>
+          {{ o.shipping_address.address1 }}<br>
+          {%- if o.shipping_address.address2 != blank -%}{{ o.shipping_address.address2 }}<br>{%- endif -%}
+          {{ o.shipping_address.city }}, {{ o.shipping_address.province }} {{ o.shipping_address.zip }}<br>
+          {{ o.shipping_address.country }}
+        </address>
+      {%- endif -%}
+    </div>
+    <div class="cart-summary-card">
+      <div class="cart-summary-row"><span>Subtotal</span><span>{{ o.subtotal_price | money }}</span></div>
+      {%- for shipping in o.shipping_methods -%}
+        <div class="cart-summary-row"><span>{{ shipping.title }}</span><span>{{ shipping.price | money }}</span></div>
+      {%- endfor -%}
+      {%- for tax in o.tax_lines -%}
+        <div class="cart-summary-row"><span>{{ tax.title }} ({{ tax.rate | times: 100 }}%)</span><span>{{ tax.price | money }}</span></div>
+      {%- endfor -%}
+      <div class="cart-summary-row" style="border-top:1px solid #1a2a40;padding-top:12px;margin-top:8px;font-weight:700;color:#fff;font-size:16px;"><span>Total</span><span>{{ o.total_price | money }}</span></div>
+    </div>
+  </div>
+
+  <a href="/account" style="display:inline-block;margin-top:32px;color:#00A651;text-decoration:none;font-size:14px;">← Back to Account</a>
+</div>
+
+{% schema %}
+{"name":"Order","settings":[],"presets":[{"name":"Order"}]}
+{% endschema %}
