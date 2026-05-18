@@ -1,0 +1,45 @@
+<div id="cart-drawer" class="drawer" aria-hidden="true">
+  <div class="drawer-overlay" data-drawer-close="cart-drawer"></div>
+  <div class="drawer-panel drawer-panel--right">
+    <div class="drawer-header">
+      <h3 class="drawer-title">Your Cart</h3>
+      <button class="drawer-close" data-drawer-close="cart-drawer" aria-label="Close cart">&times;</button>
+    </div>
+    <div class="drawer-body" id="cart-drawer-body">
+      <div class="drawer-empty">
+        <p>Your cart is empty.</p>
+        <a href="/collections/all" class="btn btn-primary" data-drawer-close="cart-drawer">Browse Catalog</a>
+      </div>
+    </div>
+    <div class="drawer-footer" id="cart-drawer-footer"></div>
+  </div>
+</div>
+<style>
+.drawer { position: fixed; inset: 0; z-index: 8000; pointer-events: none; }
+.drawer.is-open { pointer-events: all; }
+.drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s; }
+.drawer.is-open .drawer-overlay { opacity: 1; }
+.drawer-panel { position: absolute; top: 0; bottom: 0; width: 380px; max-width: 100vw; background: #0a1628; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+.drawer-panel--right { right: 0; }
+.drawer.is-open .drawer-panel { transform: translateX(0); }
+.drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid #1a2a40; flex-shrink: 0; }
+.drawer-title { margin: 0; font-size: 17px; color: #fff; }
+.drawer-close { background: none; border: none; color: #8899aa; font-size: 26px; cursor: pointer; line-height: 1; }
+.drawer-body { flex: 1; overflow-y: auto; padding: 16px; }
+.drawer-empty { text-align: center; padding: 40px 20px; color: #8899aa; }
+.drawer-footer { padding: 16px 20px; border-top: 1px solid #1a2a40; flex-shrink: 0; }
+.dci { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1a2a40; }
+.dci-img { width: 70px; height: 70px; border-radius: 6px; background-size: cover; background-position: center; background-color: #1a2a40; flex-shrink: 0; }
+.dci-info { flex: 1; min-width: 0; }
+.dci-title { color: #fff; font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 4px; }
+.dci-var { color: #8899aa; font-size: 12px; margin-bottom: 6px; }
+.dci-price { color: #00A651; font-size: 14px; font-weight: 600; }
+.dci-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.dci-qty { display: flex; align-items: center; gap: 6px; }
+.dci-qty input { width: 40px; text-align: center; background: #050d1a; border: 1px solid #1a2a40; color: #fff; padding: 4px; border-radius: 4px; font-size: 13px; }
+.dci-rm { background: none; border: none; color: #ff4444; font-size: 12px; cursor: pointer; margin-left: auto; }
+.dci-sub { color: #fff; font-size: 13px; }
+.cart-subtotal { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; color: #fff; font-size: 15px; }
+.cart-checkout-btn { display: block; width: 100%; text-align: center; background: #00A651; color: #fff; padding: 14px; border-radius: 8px; font-weight: 600; text-decoration: none; font-size: 15px; }
+.cart-checkout-btn:hover { background: #008f44; }
+</style>
