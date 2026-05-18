@@ -1,0 +1,66 @@
+<div class="auth-page-wrap container" style="padding:60px 24px;">
+  <div class="auth-grid">
+    <div class="auth-form-col">
+      <h1 class="auth-heading">B2B Login</h1>
+      <p class="auth-sub">Sign in to access your account, order history, and B2B pricing.</p>
+      {%- form 'customer_login' -%}
+        {%- if form.errors -%}
+          <div class="auth-error">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="customer[email]" autocomplete="email" required placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="customer[password]" autocomplete="current-password" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Sign In</button>
+        <div class="auth-links">
+          <a href="/account/forgot_password">Forgot password?</a>
+          <a href="/account/register">Create an account</a>
+        </div>
+      {%- endform -%}
+    </div>
+    <div class="auth-benefits-col">
+      <div class="auth-benefits-card">
+        <h3>B2B Account Benefits</h3>
+        <ul class="benefits-list">
+          <li><span class="benefit-icon">✓</span> Custom negotiated pricing</li>
+          <li><span class="benefit-icon">✓</span> Net 30/60 payment terms</li>
+          <li><span class="benefit-icon">✓</span> Priority OT dispatch</li>
+          <li><span class="benefit-icon">✓</span> Full order history &amp; invoices</li>
+          <li><span class="benefit-icon">✓</span> Dedicated account manager</li>
+          <li><span class="benefit-icon">✓</span> Bulk quick order matrix</li>
+        </ul>
+        <a href="/account/register" class="btn btn-outline" style="margin-top:24px;display:block;text-align:center;">Apply for B2B Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+.auth-page-wrap { max-width: 960px; margin: 0 auto; }
+.auth-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+.auth-heading { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.auth-sub { color: #8899aa; margin-bottom: 28px; font-size: 14px; }
+.auth-error { background: rgba(255,68,68,0.1); border: 1px solid #ff4444; border-radius: 8px; padding: 12px 16px; color: #ff4444; font-size: 14px; margin-bottom: 20px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; color: #8899aa; font-size: 13px; margin-bottom: 6px; }
+.form-group input { width: 100%; background: #050d1a; border: 1px solid #1a2a40; color: #fff; padding: 11px 14px; border-radius: 8px; font-size: 14px; box-sizing: border-box; }
+.form-group input:focus { outline: none; border-color: #00A651; }
+.btn-full { display: block; width: 100%; text-align: center; margin-top: 20px; }
+.auth-links { display: flex; justify-content: space-between; margin-top: 16px; }
+.auth-links a { color: #8899aa; font-size: 13px; text-decoration: none; }
+.auth-links a:hover { color: #00A651; }
+.auth-benefits-card { background: #0a1628; border: 1px solid #1a2a40; border-radius: 12px; padding: 32px; }
+.auth-benefits-card h3 { color: #fff; font-size: 18px; margin-bottom: 20px; }
+.benefits-list { list-style: none; padding: 0; margin: 0; }
+.benefits-list li { display: flex; gap: 10px; align-items: flex-start; color: #ccd6e0; font-size: 14px; padding: 8px 0; border-bottom: 1px solid #1a2a40; }
+.benefits-list li:last-child { border-bottom: none; }
+.benefit-icon { color: #00A651; font-weight: 700; flex-shrink: 0; }
+@media(max-width:700px){ .auth-grid { grid-template-columns: 1fr; } }
+</style>
+
+{% schema %}
+{"name":"Login","settings":[],"presets":[{"name":"Login"}]}
+{% endschema %}
