@@ -1,0 +1,34 @@
+<div class="container" style="padding:32px 24px;">
+  <h1 style="color:#fff;font-size:32px;margin-bottom:32px;">All Collections</h1>
+  <div class="collections-grid">
+    {%- for collection in collections -%}
+      <a href="{{ collection.url }}" class="collection-card">
+        {%- if collection.image -%}
+          <div class="collection-card-img" style="background-image:url('{{ collection.image | image_url: width: 600 }}')"></div>
+        {%- else -%}
+          <div class="collection-card-img collection-card-img--placeholder">{{ collection.title | slice: 0, 1 }}</div>
+        {%- endif -%}
+        <div class="collection-card-info">
+          <div class="collection-card-title">{{ collection.title }}</div>
+          <div class="collection-card-count">{{ collection.products_count }} products</div>
+        </div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+
+<style>
+.collections-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+.collection-card { text-decoration: none; background: #0a1628; border: 1px solid #1a2a40; border-radius: 10px; overflow: hidden; transition: border-color 0.2s; }
+.collection-card:hover { border-color: #00A651; }
+.collection-card-img { aspect-ratio: 4/3; background-size: cover; background-position: center; background-color: #1a2a40; display: flex; align-items: center; justify-content: center; font-size: 40px; font-weight: 800; color: #8899aa; }
+.collection-card-info { padding: 16px; }
+.collection-card-title { color: #fff; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.collection-card-count { color: #8899aa; font-size: 13px; }
+@media(max-width:768px){ .collections-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:480px){ .collections-grid { grid-template-columns: 1fr; } }
+</style>
+
+{% schema %}
+{"name":"List Collections","settings":[],"presets":[{"name":"List Collections"}]}
+{% endschema %}
