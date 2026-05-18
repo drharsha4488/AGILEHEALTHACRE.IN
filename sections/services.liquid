@@ -1,0 +1,94 @@
+<style>
+.services-section { padding: 80px 20px; background: #f8f9fa; }
+.section-header { text-align: center; margin-bottom: 50px; }
+.section-tag {
+  color: #00A651;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.section-title { font-size: 36px; font-weight: 800; color: #1a1a2e; margin-bottom: 15px; }
+.section-subtitle { color: #666; font-size: 16px; max-width: 600px; margin: 0 auto; }
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.service-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 35px 30px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  transition: all 0.3s;
+  border-bottom: 4px solid transparent;
+}
+.service-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0,87,168,0.1);
+  border-bottom-color: #0057A8;
+}
+.service-icon {
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(135deg, #0057A8, #00A651);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+.service-title { font-size: 20px; font-weight: 700; color: #1a1a2e; margin-bottom: 12px; }
+.service-desc { color: #666; font-size: 15px; line-height: 1.7; }
+</style>
+
+<section class="services-section">
+  <div class="section-header">
+    <div class="section-tag">What We Offer</div>
+    <h2 class="section-title">Our Services</h2>
+    <p class="section-subtitle">Comprehensive healthcare and orthopedic solutions for surgeons, hospitals, and patients.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">🦴</div>
+      <h3 class="service-title">Orthopedic Implants</h3>
+      <p class="service-desc">Premium quality orthopedic implants including plates, screws, nails, and joint replacement systems from leading manufacturers.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔧</div>
+      <h3 class="service-title">Surgical Instruments</h3>
+      <p class="service-desc">High-precision surgical instruments and power tools designed for orthopedic procedures and minimally invasive surgery.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🏥</div>
+      <h3 class="service-title">Hospital Supply</h3>
+      <p class="service-desc">Reliable supply chain management for hospitals and surgical centers across Telangana and Andhra Pradesh.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">👨‍⚕️</div>
+      <h3 class="service-title">Doctor Network</h3>
+      <p class="service-desc">Connect with top orthopedic specialists and surgeons in your area for consultations and procedures.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📦</div>
+      <h3 class="service-title">Meril Distributor</h3>
+      <p class="service-desc">Authorized master franchise distributor for Meril Life Sciences — bringing world-class medical devices to your doorstep.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚚</div>
+      <h3 class="service-title">Fast Delivery</h3>
+      <p class="service-desc">Emergency and scheduled delivery services ensuring surgical supplies reach you exactly when you need them.</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Services",
+  "settings": []
+}
+{% endschema %}
