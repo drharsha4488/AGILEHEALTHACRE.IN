@@ -1,0 +1,92 @@
+/* AgileHealthCare Theme CSS */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background: #fff;
+}
+
+a { text-decoration: none; }
+
+img { max-width: 100%; height: auto; display: block; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* Utility */
+.text-center { text-align: center; }
+.mt-20 { margin-top: 20px; }
+.mb-20 { margin-bottom: 20px; }
+
+/* Announcements bar */
+.announcement-bar {
+  background: #00A651;
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  padding: 15px 20px;
+  font-size: 13px;
+  color: #888;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.breadcrumb a { color: #0057A8; }
+
+/* Page hero */
+.page-hero {
+  background: linear-gradient(135deg, #0057A8, #003d7a);
+  color: #fff;
+  padding: 60px 20px;
+  text-align: center;
+}
+.page-hero h1 { font-size: 40px; font-weight: 800; }
+.page-hero p { font-size: 16px; opacity: 0.85; margin-top: 10px; }
+
+/* Contact page */
+.contact-section { max-width: 1100px; margin: 60px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  margin-bottom: 15px;
+  font-family: inherit;
+}
+.contact-form textarea { height: 130px; resize: vertical; }
+.contact-form button {
+  background: #0057A8;
+  color: #fff;
+  border: none;
+  padding: 14px 35px;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.contact-form button:hover { background: #003d7a; }
+.contact-info-item { display: flex; gap: 15px; margin-bottom: 25px; align-items: flex-start; }
+.contact-info-icon {
+  width: 45px; height: 45px;
+  background: linear-gradient(135deg, #0057A8, #00A651);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.contact-info-label { font-size: 12px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.contact-info-value { font-weight: 600; color: #1a1a2e; }
+
+@media (max-width: 768px) {
+  .contact-section { grid-template-columns: 1fr; }
+  .page-hero h1 { font-size: 28px; }
+}
