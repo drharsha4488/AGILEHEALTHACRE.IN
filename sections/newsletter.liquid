@@ -1,0 +1,51 @@
+<section class="newsletter section-pad" style="background:#080f1e;">
+  <div class="container">
+    <div class="newsletter-grid">
+      <div class="newsletter-left">
+        <h2 class="newsletter-heading">Stay Connected</h2>
+        <p class="newsletter-desc">Get updates on new medical devices, special offers, and Meril Life Sciences product launches — delivered to your inbox.</p>
+        {%- form 'customer', class: 'newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {%- if form.posted_successfully? -%}
+            <p class="newsletter-success">Thanks for subscribing!</p>
+          {%- else -%}
+            <div class="newsletter-input-row">
+              <input type="email" name="contact[email]" placeholder="Your email address" required class="newsletter-input">
+              <button type="submit" class="btn btn-primary">Subscribe</button>
+            </div>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+      <div class="newsletter-right">
+        <div class="wa-cta-card">
+          <div class="wa-icon">💬</div>
+          <h3>24/7 OT Support on WhatsApp</h3>
+          <p>Urgent device needed? Message us anytime — day or night.</p>
+          <a href="https://wa.me/917416521222" target="_blank" rel="noopener" class="btn btn-whatsapp">
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+.newsletter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+.newsletter-heading { font-size: 28px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.newsletter-desc { color: #8899aa; line-height: 1.6; margin-bottom: 24px; }
+.newsletter-input-row { display: flex; gap: 12px; }
+.newsletter-input { flex: 1; background: #0a1628; border: 1px solid #1a2a40; color: #fff; padding: 12px 16px; border-radius: 8px; font-size: 14px; }
+.newsletter-input:focus { outline: none; border-color: #00A651; }
+.newsletter-success { color: #00A651; font-weight: 600; }
+.wa-cta-card { background: #0a1628; border: 1px solid #1a2a40; border-radius: 12px; padding: 32px; text-align: center; }
+.wa-icon { font-size: 40px; margin-bottom: 12px; }
+.wa-cta-card h3 { color: #fff; font-size: 18px; margin-bottom: 8px; }
+.wa-cta-card p { color: #8899aa; font-size: 14px; margin-bottom: 20px; }
+.btn-whatsapp { background: #25D366; color: #fff; }
+.btn-whatsapp:hover { background: #1db954; }
+@media(max-width:768px){ .newsletter-grid { grid-template-columns: 1fr; } .newsletter-input-row { flex-direction: column; } }
+</style>
+
+{% schema %}
+{"name":"Newsletter","settings":[],"presets":[{"name":"Newsletter"}]}
+{% endschema %}
