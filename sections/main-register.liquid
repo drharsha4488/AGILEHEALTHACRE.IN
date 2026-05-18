@@ -1,0 +1,46 @@
+<div class="auth-page-wrap container" style="padding:60px 24px;">
+  <div style="max-width:560px;margin:0 auto;">
+    <h1 class="auth-heading">Create B2B Account</h1>
+    <p class="auth-sub">Fill in your details below. B2B accounts are reviewed and activated within 24 hours.</p>
+    {%- form 'create_customer' -%}
+      {%- if form.errors -%}
+        <div class="auth-error">{{ form.errors | default_errors }}</div>
+      {%- endif -%}
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" name="customer[first_name]" required placeholder="First name">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" name="customer[last_name]" required placeholder="Last name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address *</label>
+        <input type="email" name="customer[email]" autocomplete="email" required placeholder="your@hospital.com">
+      </div>
+      <div class="form-group">
+        <label>Password *</label>
+        <input type="password" name="customer[password]" autocomplete="new-password" required placeholder="Min 8 characters">
+      </div>
+      <div class="form-group">
+        <label>Hospital / Clinic Name *</label>
+        <input type="text" name="customer[note][hospital]" required placeholder="Full institution name">
+      </div>
+      <div class="form-group">
+        <label>Role / Designation</label>
+        <input type="text" name="customer[note][role]" placeholder="e.g. Procurement Manager, Surgeon">
+      </div>
+      <div style="background:#0a1628;border:1px solid #1a2a40;border-radius:8px;padding:14px;margin-bottom:20px;color:#8899aa;font-size:13px;">
+        ℹ️ B2B accounts are reviewed within 24 hours. You'll receive a confirmation email once activated.
+      </div>
+      <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+      <p style="text-align:center;margin-top:16px;color:#8899aa;font-size:13px;">Already have an account? <a href="/account/login" style="color:#00A651;">Sign in</a></p>
+    {%- endform -%}
+  </div>
+</div>
+
+{% schema %}
+{"name":"Register","settings":[],"presets":[{"name":"Register"}]}
+{% endschema %}
