@@ -1,0 +1,47 @@
+{%- comment -%}Collection FAQ accordion{%- endcomment -%}
+{%- assign faq_items = collection.metafields.custom.faq.value -%}
+{%- if faq_items != blank or section.blocks.size > 0 -%}
+<section class="collection-faq" style="padding:64px 0;border-top:1px solid var(--border)">
+  <div class="container" style="max-width:880px">
+    <div class="section-heading">
+      <h2>{{ section.settings.heading | default: 'Frequently Asked Questions' }}</h2>
+    </div>
+
+    {%- if faq_items -%}
+      {%- for item in faq_items -%}
+        <details class="qa-item">
+          <summary>{{ item.q }}</summary>
+          <div class="answer">{{ item.a }}</div>
+        </details>
+      {%- endfor -%}
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      <details class="qa-item" {{ block.shopify_attributes }}>
+        <summary>{{ block.settings.question }}</summary>
+        <div class="answer">{{ block.settings.answer }}</div>
+      </details>
+    {%- endfor -%}
+  </div>
+</section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Collection FAQ",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently Asked Questions" }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Q&A item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question" },
+        { "type": "richtext", "id": "answer", "label": "Answer" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Collection FAQ" }]
+}
+{% endschema %}
