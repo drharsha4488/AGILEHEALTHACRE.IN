@@ -1,0 +1,31 @@
+{%- comment -%}Standalone collection hero section{%- endcomment -%}
+<section class="collection-hero" {% if section.settings.show_image and collection.image %}style="background-image:linear-gradient(rgba(10,10,12,0.7),rgba(10,10,12,0.9)),url('{{ collection.image | image_url: width: 2000 }}');background-size:cover;background-position:center"{% endif %}>
+  <div class="container">
+    {%- render 'breadcrumbs' -%}
+    <h1>{{ collection.title }}</h1>
+    {%- if section.settings.show_description and collection.description != blank -%}
+      <p>{{ collection.description | strip_html | truncate: 220 }}</p>
+    {%- endif -%}
+    {%- if section.settings.show_stats -%}
+      <div class="hero-stats">
+        <span>{{ collection.all_products_count }} products</span>
+        <span>·</span>
+        <span>★ 4.8 avg</span>
+        <span>·</span>
+        <span>CDSCO approved</span>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection Hero",
+  "settings": [
+    { "type": "checkbox", "id": "show_image", "label": "Show background image", "default": true },
+    { "type": "checkbox", "id": "show_description", "label": "Show description", "default": true },
+    { "type": "checkbox", "id": "show_stats", "label": "Show stats row", "default": true }
+  ],
+  "presets": [{ "name": "Collection Hero" }]
+}
+{% endschema %}
