@@ -1,0 +1,25 @@
+{%- comment -%}Sidebar filters using Shopify native filtering{%- endcomment -%}
+<form id="filters-form" method="get" data-filter-form>
+  <div class="filters-header">
+    <h3>Filters</h3>
+    {%- if collection.current_vendor or collection.current_type or current_tags or collection.filters != empty -%}
+      <a href="{{ collection.url }}" class="btn btn-ghost btn-sm">Clear All</a>
+    {%- endif -%}
+  </div>
+
+  {%- if collection.filters != empty -%}
+    {%- for filter in collection.filters -%}
+      {%- render 'filter-group', filter: filter -%}
+    {%- endfor -%}
+  {%- else -%}
+    <p class="text-mute" style="font-size:13px;padding:8px 0">Filters appear once the storefront filter app is configured under Online Store → Navigation → Filters.</p>
+  {%- endif -%}
+
+  {%- if collection.sort_by != blank -%}
+    <input type="hidden" name="sort_by" value="{{ collection.sort_by }}">
+  {%- endif -%}
+
+  <div class="filters-footer">
+    <button type="submit" class="btn btn-primary btn-block">Apply</button>
+  </div>
+</form>
