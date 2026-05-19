@@ -1,58 +1,102 @@
-{%- paginate collection.products by 24 -%}
-<div class="collection-page-wrap container">
-  <div class="collection-header">
-    <nav class="breadcrumbs">
-      <a href="/">Home</a> &rsaquo;
-      <a href="/collections/all">Collections</a> &rsaquo;
-      <span>{{ collection.title }}</span>
-    </nav>
-    <h1 class="collection-title">{{ collection.title }}</h1>
-    {%- if collection.description != blank -%}
-      <div class="collection-desc">{{ collection.description }}</div>
-    {%- endif -%}
-  </div>
+{{ 'collection.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'collection.js' | asset_url }}" defer></script>
 
-  <div class="collection-toolbar">
-    <span class="collection-count">{{ collection.products_count }} products</span>
-    <div class="sort-wrap">
-      <label for="sort-select">Sort by:</label>
-      <select id="sort-select" onchange="window.location = this.value" class="sort-select">
-        {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
-        <option value="{{ collection.url }}?sort_by=manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
-        <option value="{{ collection.url }}?sort_by=price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
-        <option value="{{ collection.url }}?sort_by=price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
-        <option value="{{ collection.url }}?sort_by=title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>A–Z</option>
-        <option value="{{ collection.url }}?sort_by=created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
-      </select>
+{% paginate collection.products by 24 %}
+<section class="collection-hero" {% if collection.image %}style="background-image:linear-gradient(rgba(10,10,12,0.7),rgba(10,10,12,0.9)),url('{{ collection.image | image_url: width: 2000 }}');background-size:cover;background-position:center"{% endif %}>
+  <div class="container">
+    {%- render 'breadcrumbs' -%}
+    <h1>{{ collection.title }}</h1>
+    {%- if collection.description != blank -%}
+      <p>{{ collection.description | strip_html | truncate: 220 }}</p>
+    {%- endif -%}
+    <div class="hero-stats">
+      <span>{{ collection.all_products_count }} products</span>
+      <span>·</span>
+      <span>★ 4.8 avg rating</span>
+      <span>·</span>
+      <span>CDSCO approved</span>
     </div>
   </div>
+</section>
 
-  <div class="collection-grid product-grid product-grid--4">
-    {%- for product in collection.products -%}
-      {%- render 'product-card', product: product -%}
-    {%- else -%}
-      <p style="color:#8899aa;grid-column:1/-1;">No products found in this collection.</p>
-    {%- endfor -%}
+{%- render 'collection-sub-pills', collection: collection -%}
+{%- render 'active-filters-bar', collection: collection -%}
+
+<div class="container">
+  <div class="collection-layout">
+    <aside class="collection-sidebar" id="collection-sidebar">
+      {%- render 'collection-filters', collection: collection -%}
+    </aside>
+
+    <main class="collection-main">
+      <div class="sort-bar">
+        <div class="result-count">
+          Showing {{ paginate.current_offset | plus: 1 }}–{{ paginate.current_offset | plus: collection.products.size }} of {{ collection.all_products_count }}
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <button class="btn btn-secondary btn-sm" id="mobile-filter-btn" style="display:none">⚙ Filters</button>
+          {%- render 'view-toggle' -%}
+          {%- render 'sort-dropdown' -%}
+        </div>
+      </div>
+
+      {%- if collection.products.size == 0 -%}
+        {%- render 'empty-state',
+          title: 'No products match these filters',
+          message: 'Try removing some filters or browse all categories.',
+          action_text: 'Clear filters',
+          action_url: collection.url -%}
+      {%- else -%}
+        <div class="product-grid" data-view="grid" id="product-grid">
+          {%- for p in collection.products -%}
+            {%- render 'product-card-grid', product: p -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+      {%- render 'pagination', paginate: paginate -%}
+    </main>
   </div>
-
-  {%- render 'pagination', paginate: paginate -%}
 </div>
-{%- endpaginate -%}
 
-<style>
-.collection-page-wrap { padding: 32px 24px; }
-.collection-header { margin-bottom: 32px; }
-.breadcrumbs { font-size: 12px; color: #8899aa; margin-bottom: 16px; }
-.breadcrumbs a { color: #8899aa; text-decoration: none; }
-.breadcrumbs a:hover { color: #00A651; }
-.collection-title { font-size: 32px; font-weight: 700; color: #fff; margin: 8px 0; }
-.collection-desc { color: #8899aa; line-height: 1.6; max-width: 700px; margin-top: 8px; }
-.collection-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #1a2a40; flex-wrap: wrap; gap: 12px; }
-.collection-count { color: #8899aa; font-size: 14px; }
-.sort-wrap { display: flex; align-items: center; gap: 10px; color: #8899aa; font-size: 14px; }
-.sort-select { background: #0a1628; border: 1px solid #1a2a40; color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 13px; cursor: pointer; }
-</style>
+{%- if collection.metafields.custom.faq -%}
+  {% section 'collection-faq' %}
+{%- endif -%}
+
+{%- if collection.metafields.custom.related_collections.value.size > 0 -%}
+  <section class="related-collections" style="padding:48px 0;border-top:1px solid var(--border)">
+    <div class="container">
+      <div class="section-heading"><h2>Related Categories</h2></div>
+      <div class="grid grid-4">
+        {%- for c in collection.metafields.custom.related_collections.value limit: 8 -%}
+          <a href="{{ c.url }}" class="b2b-tier-card" style="text-decoration:none">
+            <div>
+              <div class="tier-name">{{ c.title }}</div>
+              <div class="text-mute" style="font-size:13px">{{ c.products_count }} products</div>
+            </div>
+            <div style="color:var(--green)">→</div>
+          </a>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{%- render 'quick-view-modal' -%}
+{%- render 'comparison-bar' -%}
+{% endpaginate %}
 
 {% schema %}
-{"name":"Main Collection","settings":[],"presets":[{"name":"Main Collection"}]}
+{
+  "name": "Main Collection",
+  "tag": "section",
+  "settings": [
+    { "type": "select", "id": "products_per_page", "label": "Products per page",
+      "options": [{"value":"24","label":"24"},{"value":"36","label":"36"},{"value":"48","label":"48"}],
+      "default": "24" },
+    { "type": "checkbox", "id": "enable_filters", "label": "Enable filters", "default": true },
+    { "type": "checkbox", "id": "enable_compare", "label": "Enable product comparison", "default": true }
+  ],
+  "presets": [{ "name": "Main Collection" }]
+}
 {% endschema %}
