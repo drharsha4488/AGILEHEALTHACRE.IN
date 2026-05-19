@@ -1,0 +1,19 @@
+{%- comment -%}Quick view modal — populated by JS{%- endcomment -%}
+<div class="modal-overlay" id="quick-view-modal" data-modal="quick-view" role="dialog" aria-modal="true" aria-label="Quick view">
+  <div class="modal-card" style="max-width:900px;padding:0;overflow:hidden">
+    <button type="button" class="modal-close" aria-label="Close" data-close-modal style="z-index:2">✕</button>
+    <div id="quick-view-content" style="display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:400px">
+      <div class="skeleton" style="aspect-ratio:1/1"></div>
+      <div style="padding:32px;display:flex;flex-direction:column;gap:14px">
+        <div class="skeleton" style="height:14px;width:60%"></div>
+        <div class="skeleton" style="height:28px;width:90%"></div>
+        <div class="skeleton" style="height:20px;width:40%"></div>
+        <div class="skeleton" style="height:40px;width:100%"></div>
+        <div class="skeleton" style="height:48px;width:100%"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  @media (max-width:768px){#quick-view-content{grid-template-columns:1fr!important}}
+</style>
