@@ -1,0 +1,26 @@
+{%- comment -%}
+  Volume pricing table. Reads metafields.custom.volume_tiers JSON.
+  Format: [{"min":1,"max":9,"price":14500},{"min":10,"max":49,"price":13775,"save":5}]
+{%- endcomment -%}
+{%- if product.metafields.custom.volume_tiers -%}
+  {%- assign tiers_raw = product.metafields.custom.volume_tiers.value -%}
+  {%- if tiers_raw != blank -%}
+    <table class="volume-pricing-table" aria-label="Volume pricing">
+      <thead>
+        <tr><th>Quantity</th><th>Price per unit</th><th>Savings</th></tr>
+      </thead>
+      <tbody>
+        {%- for tier in tiers_raw -%}
+          <tr data-min-qty="{{ tier.min }}" data-max-qty="{{ tier.max | default: 99999 }}">
+            <td>
+              {%- if tier.max -%}{{ tier.min }} – {{ tier.max }}
+              {%- else -%}{{ tier.min }}+{%- endif -%}
+            </td>
+            <td>{{ tier.price | money }}</td>
+            <td>{%- if tier.save -%}{{ tier.save }}%{%- else -%}—{%- endif -%}</td>
+          </tr>
+        {%- endfor -%}
+      </tbody>
+    </table>
+  {%- endif -%}
+{%- endif -%}
