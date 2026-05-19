@@ -1,0 +1,35 @@
+{%- comment -%}Selling plans (subscription) selector{%- endcomment -%}
+{%- if product.selling_plan_groups.size > 0 -%}
+  <div class="selling-plans" data-selling-plans>
+    <label class="selling-plan-option selected">
+      <input type="radio" name="selling_plan" value="" checked>
+      <div>
+        <div style="font-weight:600">One-time purchase</div>
+        <div style="font-size:12px;color:var(--text-3)">{{ product.selected_or_first_available_variant.price | money }}</div>
+      </div>
+    </label>
+    {%- for group in product.selling_plan_groups -%}
+      {%- for plan in group.selling_plans -%}
+        <label class="selling-plan-option">
+          <input type="radio" name="selling_plan" value="{{ plan.id }}">
+          <div>
+            <div style="font-weight:600">{{ plan.name }}</div>
+            {%- if plan.price_adjustments.first.value > 0 -%}
+              <div style="font-size:12px;color:var(--green)">
+                Save {% if plan.price_adjustments.first.value_type == 'percentage' %}{{ plan.price_adjustments.first.value }}%{% else %}{{ plan.price_adjustments.first.value | money }}{% endif %}
+              </div>
+            {%- endif -%}
+          </div>
+        </label>
+      {%- endfor -%}
+    {%- endfor -%}
+  </div>
+  <script>
+    document.querySelectorAll('[data-selling-plans] input[type=radio]').forEach(r=>{
+      r.addEventListener('change',()=>{
+        document.querySelectorAll('[data-selling-plans] .selling-plan-option').forEach(o=>o.classList.remove('selected'));
+        r.closest('.selling-plan-option').classList.add('selected');
+      });
+    });
+  </script>
+{%- endif -%}
