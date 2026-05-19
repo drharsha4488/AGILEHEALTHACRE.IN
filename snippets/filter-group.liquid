@@ -1,0 +1,49 @@
+{%- comment -%}Renders a single filter group{%- endcomment -%}
+<details class="filter-group" {% if filter.active_values.size > 0 or forloop.first %}open{% endif %}>
+  <summary>
+    <span>{{ filter.label }}</span>
+    {%- if filter.active_values.size > 0 -%}
+      <span class="tag tag-green">{{ filter.active_values.size }}</span>
+    {%- endif -%}
+  </summary>
+  <div class="filter-body">
+    {%- case filter.type -%}
+      {%- when 'list' -%}
+        {%- for value in filter.values -%}
+          <label class="filter-option {% if value.count == 0 and value.active == false %}is-disabled{% endif %}">
+            <input type="checkbox"
+                   name="{{ value.param_name }}"
+                   value="{{ value.value }}"
+                   {% if value.active %}checked{% endif %}
+                   {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+            <span class="opt-label">{{ value.label }}</span>
+            <span class="opt-count">{{ value.count }}</span>
+          </label>
+        {%- endfor -%}
+
+      {%- when 'price_range' -%}
+        <div class="price-range">
+          <div class="field">
+            <label class="field-label">Min ({{ cart.currency.symbol }})</label>
+            <input type="number" class="field-input" name="{{ filter.min_value.param_name }}"
+                   value="{{ filter.min_value.value | money_without_currency | remove: ',' }}"
+                   min="0" placeholder="0">
+          </div>
+          <div class="field">
+            <label class="field-label">Max ({{ cart.currency.symbol }})</label>
+            <input type="number" class="field-input" name="{{ filter.max_value.param_name }}"
+                   value="{{ filter.max_value.value | money_without_currency | remove: ',' }}"
+                   min="0" placeholder="{{ filter.range_max | money_without_currency | remove: ',' }}">
+          </div>
+        </div>
+
+      {%- when 'boolean' -%}
+        {%- for value in filter.values -%}
+          <label class="filter-option">
+            <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" {% if value.active %}checked{% endif %}>
+            <span class="opt-label">{{ value.label }}</span>
+          </label>
+        {%- endfor -%}
+    {%- endcase -%}
+  </div>
+</details>
