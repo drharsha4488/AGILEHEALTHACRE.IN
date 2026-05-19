@@ -1,0 +1,27 @@
+{%- comment -%}Sub-collection pill nav{%- endcomment -%}
+{%- assign subs = collection.metafields.custom.sub_collections.value -%}
+{%- if subs != blank and subs.size > 0 -%}
+<div class="sub-pills-wrap">
+  <div class="container">
+    <div class="sub-pills">
+      <a href="{{ collection.url }}" class="sub-pill active">All ({{ collection.all_products_count }})</a>
+      {%- for s in subs -%}
+        <a href="{{ s.url }}" class="sub-pill">{{ s.title }} ({{ s.products_count }})</a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- elsif collection.all_tags.size > 0 -%}
+<div class="sub-pills-wrap">
+  <div class="container">
+    <div class="sub-pills">
+      <a href="{{ collection.url }}" class="sub-pill {% if current_tags == empty %}active{% endif %}">All</a>
+      {%- for tag in collection.all_tags limit: 12 -%}
+        {%- unless tag contains 'tier-' or tag contains 'quote-' or tag contains 'b2b-' -%}
+          <a href="{{ collection.url }}/{{ tag | handle }}" class="sub-pill {% if current_tags contains tag %}active{% endif %}">{{ tag }}</a>
+        {%- endunless -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+{%- endif -%}
