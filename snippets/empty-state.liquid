@@ -1,0 +1,12 @@
+{%- comment -%}
+  Empty state component.
+  Accepts: title, message, action_text, action_url, icon (optional)
+{%- endcomment -%}
+<div class="empty-state" style="text-align:center;padding:64px 24px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+  <div style="font-size:48px;margin-bottom:12px">{{ icon | default: '📭' }}</div>
+  <h3 style="font-size:22px;margin-bottom:8px">{{ title | default: 'Nothing here yet' }}</h3>
+  <p class="text-mute" style="max-width:420px;margin:0 auto 20px">{{ message | default: 'Try adjusting your search or filters.' }}</p>
+  {%- if action_text and action_url -%}
+    <a href="{{ action_url }}" class="btn btn-primary">{{ action_text }}</a>
+  {%- endif -%}
+</div>
