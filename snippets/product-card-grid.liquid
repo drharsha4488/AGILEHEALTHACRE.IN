@@ -1,0 +1,96 @@
+{%- comment -%}Product card — grid view. Accepts: product{%- endcomment -%}
+{%- assign v = product.selected_or_first_available_variant -%}
+{%- assign on_sale = false -%}
+{%- if v.compare_at_price > v.price -%}{%- assign on_sale = true -%}{%- endif -%}
+{%- assign is_new = false -%}
+{%- if product.tags contains 'new' or product.tags contains 'New' -%}{%- assign is_new = true -%}{%- endif -%}
+{%- assign quote_only = false -%}
+{%- if product.tags contains 'quote-only' -%}{%- assign quote_only = true -%}{%- endif -%}
+
+<div class="product-card" data-product-card data-product-handle="{{ product.handle }}">
+  <div class="product-card-badges">
+    {%- if is_new -%}<span class="product-card-badge new">New</span>{%- endif -%}
+    {%- if on_sale -%}<span class="product-card-badge sale">Sale</span>{%- endif -%}
+    {%- if quote_only -%}<span class="product-card-badge quote">Quote</span>{%- endif -%}
+  </div>
+  <button type="button" class="product-card-wishlist" data-wishlist data-product-id="{{ product.id }}" aria-label="Save to wishlist">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+    </svg>
+  </button>
+
+  <a href="{{ product.url }}" class="product-card-media" tabindex="-1">
+    {%- if product.featured_image -%}
+      <img src="{{ product.featured_image | image_url: width: 600 }}"
+           alt="{{ product.featured_image.alt | default: product.title | escape }}"
+           loading="lazy" width="600" height="600">
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+  </a>
+
+  <div class="product-card-overlay">
+    <button type="button" class="btn btn-secondary btn-sm" data-quick-view data-handle="{{ product.handle }}">Quick View</button>
+    {%- if quote_only -%}
+      <a href="/pages/quote?product={{ product.handle }}" class="btn btn-blue btn-sm">Quote</a>
+    {%- else -%}
+      <button type="button" class="btn btn-primary btn-sm" data-card-add-to-cart data-variant-id="{{ v.id }}" {% if v.available == false %}disabled{% endif %}>
+        {%- if v.available -%}+ Cart{%- else -%}Sold Out{%- endif -%}
+      </button>
+    {%- endif -%}
+  </div>
+
+  <div class="product-card-body">
+    {%- if product.vendor != blank -%}
+      <div class="product-card-vendor">{{ product.vendor }}</div>
+    {%- endif -%}
+    <div class="product-card-title"><a href="{{ product.url }}">{{ product.title | escape }}</a></div>
+
+    {%- assign avg = product.metafields.reviews.rating_avg | default: 0 -%}
+    {%- if avg > 0 -%}
+      <div style="color:var(--green);font-size:12px;font-weight:600">★ {{ avg | round: 1 }} <span style="color:#888;font-weight:400">({{ product.metafields.reviews.rating_count | default: 0 }})</span></div>
+    {%- endif -%}
+
+    <div class="product-card-price">
+      {%- if quote_only -%}
+        <a href="/pages/quote?product={{ product.handle }}" style="color:var(--blue);font-size:14px">Request Quote</a>
+      {%- elsif product.tags contains 'b2b-only' and customer == nil -%}
+        <a href="/account/login" style="color:#666;font-size:14px">🔒 Login for price</a>
+      {%- elsif product.price_varies and on_sale == false -%}
+        From {{ product.price_min | money }}
+      {%- elsif on_sale -%}
+        {{ v.price | money }}<span class="compare">{{ v.compare_at_price | money }}</span>
+      {%- else -%}
+        {{ v.price | money }}
+      {%- endif -%}
+    </div>
+
+    {%- comment -%} variant swatches if has color option {%- endcomment -%}
+    {%- for opt in product.options_with_values -%}
+      {%- assign on = opt.name | downcase -%}
+      {%- if on contains 'color' or on contains 'colour' -%}
+        <div class="product-card-swatches">
+          {%- for val in opt.values limit: 5 -%}
+            <span class="swatch" style="background:{{ val | downcase | replace: ' ', '' }}" title="{{ val }}"></span>
+          {%- endfor -%}
+          {%- if opt.values.size > 5 -%}<span style="font-size:11px;color:#888;margin-left:4px">+{{ opt.values.size | minus: 5 }}</span>{%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if v.inventory_management != blank -%}
+      <div style="font-size:11px;color:{% if v.inventory_quantity > 0 %}#00b855{% else %}#888{% endif %};font-weight:500;margin-top:4px">
+        {%- if v.inventory_quantity > 10 -%}● In Stock
+        {%- elsif v.inventory_quantity > 0 -%}● Only {{ v.inventory_quantity }} left
+        {%- else -%}○ Out of stock{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if section.settings.enable_compare -%}
+      <label style="font-size:11px;color:#888;display:flex;gap:4px;align-items:center;margin-top:6px;cursor:pointer">
+        <input type="checkbox" data-compare-toggle data-product-id="{{ product.id }}" data-handle="{{ product.handle }}" data-title="{{ product.title | escape }}" data-image="{{ product.featured_image | image_url: width: 80 }}">
+        Compare
+      </label>
+    {%- endif -%}
+  </div>
+</div>
