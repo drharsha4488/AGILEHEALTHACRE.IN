@@ -1,0 +1,39 @@
+{%- if paginate.pages > 1 -%}
+<nav class="pagination" aria-label="Pagination">
+  <ul class="pagination-list">
+    {%- if paginate.previous -%}
+      <li>
+        <a href="{{ paginate.previous.url }}" class="pagination-btn" aria-label="Previous">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        </a>
+      </li>
+    {%- endif -%}
+
+    {%- for part in paginate.parts -%}
+      {%- if part.is_link -%}
+        <li><a href="{{ part.url }}" class="pagination-btn">{{ part.title }}</a></li>
+      {%- elsif part.title == paginate.current_page -%}
+        <li><span class="pagination-btn pagination-btn--active" aria-current="page">{{ part.title }}</span></li>
+      {%- else -%}
+        <li><span class="pagination-btn pagination-btn--gap">&hellip;</span></li>
+      {%- endif -%}
+    {%- endfor -%}
+
+    {%- if paginate.next -%}
+      <li>
+        <a href="{{ paginate.next.url }}" class="pagination-btn" aria-label="Next">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+        </a>
+      </li>
+    {%- endif -%}
+  </ul>
+</nav>
+<style>
+.pagination{padding:40px 0;display:flex;justify-content:center}
+.pagination-list{display:flex;gap:8px;list-style:none;margin:0;padding:0;align-items:center}
+.pagination-btn{display:flex;align-items:center;justify-content:center;min-width:40px;height:40px;padding:0 12px;border-radius:8px;background:var(--elevated,#1c1d24);color:var(--text,#fff);border:1px solid var(--border,rgba(255,255,255,0.08));font-size:14px;font-weight:500;text-decoration:none;transition:all .2s;cursor:pointer}
+.pagination-btn:hover{background:var(--green,#00D964);color:#000;border-color:var(--green,#00D964)}
+.pagination-btn--active{background:var(--green,#00D964);color:#000;border-color:var(--green,#00D964);pointer-events:none}
+.pagination-btn--gap{background:transparent;border-color:transparent;pointer-events:none;color:var(--text-2,#a1a1aa)}
+</style>
+{%- endif -%}
