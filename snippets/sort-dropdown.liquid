@@ -1,0 +1,20 @@
+{%- comment -%}Sort dropdown{%- endcomment -%}
+{%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+<form class="sort-form" method="get" data-sort-form>
+  <label for="SortBy" class="visually-hidden">Sort by</label>
+  <select id="SortBy" name="sort_by" class="field-input" onchange="this.form.submit()" style="min-width:180px">
+    <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>Featured</option>
+    <option value="best-selling" {% if sort_by == 'best-selling' %}selected{% endif %}>Best Selling</option>
+    <option value="title-ascending" {% if sort_by == 'title-ascending' %}selected{% endif %}>A–Z</option>
+    <option value="title-descending" {% if sort_by == 'title-descending' %}selected{% endif %}>Z–A</option>
+    <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>Price: Low to High</option>
+    <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>Price: High to Low</option>
+    <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>Newest</option>
+    <option value="created-ascending" {% if sort_by == 'created-ascending' %}selected{% endif %}>Oldest</option>
+  </select>
+  {%- for filter in collection.filters -%}
+    {%- for v in filter.active_values -%}
+      <input type="hidden" name="{{ v.param_name }}" value="{{ v.value }}">
+    {%- endfor -%}
+  {%- endfor -%}
+</form>
