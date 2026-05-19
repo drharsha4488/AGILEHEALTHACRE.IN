@@ -1,71 +1,81 @@
-/* AgileHealthcare — theme.js */
+/* AgileHealthcare theme.js */
 (function() {
   'use strict';
 
-  // Utility
-  const $ = (s, el = document) => el.querySelector(s);
-  const $$ = (s, el = document) => [...el.querySelectorAll(s)];
-  const on = (el, ev, fn) => el && el.addEventListener(ev, fn);
+  const $ = (s, el) => (el || document).querySelector(s);
+  const $$ = (s, el) => [...(el || document).querySelectorAll(s)];
 
-  // Overlay
-  const overlay = () => $('#modal-overlay');
-  function openOverlay() { overlay()?.classList.add('active'); document.body.style.overflow = 'hidden'; }
-  function closeOverlay() { overlay()?.classList.remove('active'); document.body.style.overflow = ''; }
+  /* ── Overlay ── */
+  const ov = document.getElementById('drawer-overlay');
+  function showOverlay() {
+    if (ov) { ov.classList.add('open'); }
+    document.body.style.overflow = 'hidden';
+  }
+  function hideOverlay() {
+    if (ov) { ov.classList.remove('open'); }
+    document.body.style.overflow = '';
+  }
 
-  // Drawer system
+  /* ── Drawers ── */
   function openDrawer(id) {
     closeAllDrawers();
-    const el = $(`#${id}`);
-    if (el) { el.classList.add('open'); openOverlay(); }
+    var el = document.getElementById(id);
+    if (el) {
+      el.classList.add('open');
+      showOverlay();
+      // focus first input inside drawer
+      setTimeout(function() {
+        var inp = el.querySelector('input');
+        if (inp) inp.focus();
+      }, 350);
+    }
   }
+
   function closeAllDrawers() {
-    $$('.drawer').forEach(d => d.classList.remove('open'));
-    closeOverlay();
+    $$('.drawer').forEach(function(d) { d.classList.remove('open'); });
+    hideOverlay();
   }
 
-  // Overlay click closes drawers
-  on(overlay(), 'click', closeAllDrawers);
-
-  // Close buttons
-  on(document, 'click', e => {
-    if (e.target.closest('[data-drawer-close]')) closeAllDrawers();
-    if (e.target.closest('[data-drawer-open]')) openDrawer(e.target.closest('[data-drawer-open]').dataset.drawerOpen);
+  /* ── Event delegation ── */
+  document.addEventListener('click', function(e) {
+    var openBtn = e.target.closest('[data-drawer-open]');
+    var closeBtn = e.target.closest('[data-drawer-close]');
+    if (openBtn) { e.preventDefault(); openDrawer(openBtn.dataset.drawerOpen); }
+    else if (closeBtn) { closeAllDrawers(); }
   });
 
-  // Escape key
-  on(document, 'keydown', e => { if (e.key === 'Escape') closeAllDrawers(); });
+  if (ov) ov.addEventListener('click', closeAllDrawers);
 
-  // Mobile menu toggle
-  const mobileToggle = $('#mobile-menu-toggle');
-  const mobileMenu = $('#mobile-menu');
-  on(mobileToggle, 'click', () => {
-    const open = mobileMenu?.classList.toggle('open');
-    mobileToggle?.setAttribute('aria-expanded', open);
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeAllDrawers();
   });
 
-  // Mega menu hover — desktop
-  $$('.mega-menu-parent').forEach(item => {
-    let timer;
-    item.addEventListener('mouseenter', () => { clearTimeout(timer); item.classList.add('open'); });
-    item.addEventListener('mouseleave', () => { timer = setTimeout(() => item.classList.remove('open'), 150); });
+  /* ── Mega menu (desktop hover) ── */
+  $$('.has-mega').forEach(function(item) {
+    var timer;
+    item.addEventListener('mouseenter', function() { clearTimeout(timer); item.classList.add('open'); });
+    item.addEventListener('mouseleave', function() { timer = setTimeout(function() { item.classList.remove('open'); }, 150); });
   });
 
-  // Sticky header shrink
-  const header = $('.site-header');
+  /* ── Sticky header ── */
+  var header = document.querySelector('.site-header');
   if (header) {
-    window.addEventListener('scroll', () => {
+    window.addEventListener('scroll', function() {
       header.classList.toggle('scrolled', window.scrollY > 50);
     }, { passive: true });
   }
 
-  // Announcement bar dismiss
-  const annBar = $('#announcement-bar');
-  on($('#ann-dismiss'), 'click', () => {
-    annBar?.classList.add('hidden');
-    sessionStorage.setItem('ann_dismissed', '1');
-  });
-  if (sessionStorage.getItem('ann_dismissed')) annBar?.classList.add('hidden');
+  /* ── Announcement bar dismiss ── */
+  var annBar = document.getElementById('announcement-bar');
+  var annDismiss = document.getElementById('ann-dismiss');
+  if (annDismiss) {
+    annDismiss.addEventListener('click', function() {
+      if (annBar) annBar.style.display = 'none';
+      sessionStorage.setItem('ann_dismissed', '1');
+    });
+  }
+  if (annBar && sessionStorage.getItem('ann_dismissed')) annBar.style.display = 'none';
 
-  // Expose globally
-  window.AH = { openDrawer, closeAllDrawers, openOverlay, closeOverlay };
+  /* ── Expose globally ── */
+  window.AH = { openDrawer: openDrawer, closeAllDrawers: closeAllDrawers };
 })();
