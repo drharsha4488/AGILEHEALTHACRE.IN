@@ -42,7 +42,8 @@
   {% render 'cart-drawer' %}
   {% render 'search-drawer' %}
 
-  <div id="modal-overlay" class="modal-overlay"></div>
+  {%- comment -%}Single overlay for all drawers — managed by theme.js{%- endcomment -%}
+  <div id="drawer-overlay" class="drawer-overlay"></div>
 
   <main id="main-content" tabindex="-1">
     {{ content_for_layout }}
@@ -54,8 +55,6 @@
   {{ 'cart.js' | asset_url | script_tag }}
   {{ 'search.js' | asset_url | script_tag }}
 
-  <script>
-    document.documentElement.classList.remove('no-js');
-  </script>
+  <script>document.documentElement.classList.remove('no-js');</script>
 </body>
 </html>
