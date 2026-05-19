@@ -1,0 +1,42 @@
+{%- comment -%}Quantity input stepper{%- endcomment -%}
+<div class="qty-wrap" data-quantity-wrapper>
+  <button type="button" class="qty-btn" data-qty="minus" aria-label="Decrease quantity">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/></svg>
+  </button>
+  <input type="number"
+    id="quantity-{{ section.id }}"
+    name="quantity"
+    value="{{ product.selected_or_first_available_variant.quantity_rule.min | default: 1 }}"
+    min="{{ product.selected_or_first_available_variant.quantity_rule.min | default: 1 }}"
+    max="{{ product.selected_or_first_available_variant.quantity_rule.max | default: 999 }}"
+    class="qty-input"
+    aria-label="Quantity"
+    data-quantity-input>
+  <button type="button" class="qty-btn" data-qty="plus" aria-label="Increase quantity">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+</div>
+<style>
+.qty-wrap{display:inline-flex;align-items:center;border:1px solid var(--border,rgba(255,255,255,0.1));border-radius:8px;overflow:hidden;background:var(--elevated,#1c1d24)}
+.qty-btn{width:40px;height:44px;display:flex;align-items:center;justify-content:center;background:none;border:none;color:var(--text,#fff);cursor:pointer;transition:background .2s;flex-shrink:0}
+.qty-btn:hover{background:rgba(255,255,255,0.08)}
+.qty-input{width:52px;height:44px;background:none;border:none;border-left:1px solid var(--border,rgba(255,255,255,0.1));border-right:1px solid var(--border,rgba(255,255,255,0.1));color:var(--text,#fff);text-align:center;font-size:15px;font-weight:600;-moz-appearance:textfield}
+.qty-input::-webkit-outer-spin-button,.qty-input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+</style>
+<script>
+(function(){
+  var wrap = document.querySelector('[data-quantity-wrapper]');
+  if(!wrap) return;
+  var input = wrap.querySelector('[data-quantity-input]');
+  wrap.addEventListener('click', function(e){
+    var btn = e.target.closest('[data-qty]');
+    if(!btn || !input) return;
+    var val = parseInt(input.value) || 1;
+    var min = parseInt(input.min) || 1;
+    var max = parseInt(input.max) || 9999;
+    if(btn.dataset.qty === 'plus') input.value = Math.min(val + 1, max);
+    else input.value = Math.max(val - 1, min);
+    input.dispatchEvent(new Event('change', {bubbles:true}));
+  });
+})();
+</script>
