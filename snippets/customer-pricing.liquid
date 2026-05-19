@@ -1,0 +1,19 @@
+{%- comment -%}Customer B2B tier banner{%- endcomment -%}
+{%- if customer -%}
+  {%- if customer.tags contains 'tier-platinum' -%}
+    <div class="customer-pricing-banner tag-green">💎 Platinum Member · 15% off all prices</div>
+  {%- elsif customer.tags contains 'tier-gold' -%}
+    <div class="customer-pricing-banner tag-green">🥇 Gold Member · 10% off all prices</div>
+  {%- elsif customer.tags contains 'tier-silver' -%}
+    <div class="customer-pricing-banner tag-green">🥈 Silver Member · 5% off all prices</div>
+  {%- endif -%}
+  {%- if customer.tags contains 'net-30' -%}
+    <div class="customer-pricing-banner tag-blue">📋 Net 30 Payment Terms Available</div>
+  {%- elsif customer.tags contains 'net-60' -%}
+    <div class="customer-pricing-banner tag-blue">📋 Net 60 Payment Terms Available</div>
+  {%- endif -%}
+{%- else -%}
+  <a href="/account/login" class="customer-pricing-banner tag-blue" style="text-decoration:none">
+    🔒 Log in for B2B pricing →
+  </a>
+{%- endif -%}
