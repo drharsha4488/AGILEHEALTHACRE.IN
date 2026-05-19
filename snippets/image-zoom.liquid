@@ -1,0 +1,12 @@
+{%- comment -%}
+  Image zoom magnifier component.
+  Accepts: image (required), alt (optional)
+{%- endcomment -%}
+<div class="zoom-container" data-zoom-container>
+  <img src="{{ image | image_url: width: 1400 }}"
+       alt="{{ alt | default: image.alt | escape }}"
+       class="zoom-main" data-gallery-main-img
+       width="1400" height="1400" loading="eager">
+  <div class="zoom-lens" aria-hidden="true"></div>
+  <div class="zoom-result" aria-hidden="true"></div>
+</div>
