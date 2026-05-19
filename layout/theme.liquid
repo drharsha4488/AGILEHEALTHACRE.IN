@@ -4,46 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0a0a0c">
-
   <title>
-    {%- if template == 'index' -%}
-      {{ shop.name }} &mdash; Meril Medical Devices Telangana
-    {%- elsif template == 'product' -%}
-      {{ product.title }} &mdash; {{ shop.name }}
-    {%- elsif template == 'collection' -%}
-      {{ collection.title }} &mdash; {{ shop.name }}
-    {%- elsif template == 'page' -%}
-      {{ page.title }} &mdash; {{ shop.name }}
-    {%- else -%}
-      {{ page_title }} &mdash; {{ shop.name }}
+    {%- if template == 'index' -%}{{ shop.name }} &mdash; Meril Medical Devices Telangana
+    {%- elsif template == 'product' -%}{{ product.title }} &mdash; {{ shop.name }}
+    {%- elsif template == 'collection' -%}{{ collection.title }} &mdash; {{ shop.name }}
+    {%- elsif template == 'page' -%}{{ page.title }} &mdash; {{ shop.name }}
+    {%- else -%}{{ page_title }} &mdash; {{ shop.name }}
     {%- endif -%}
   </title>
-
-  {%- if page_description -%}
-    <meta name="description" content="{{ page_description | escape }}">
-  {%- endif -%}
-
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
   <link rel="canonical" href="{{ canonical_url }}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
   {{ content_for_header }}
-
   {{ 'base.css' | asset_url | stylesheet_tag }}
   {{ 'theme.css' | asset_url | stylesheet_tag }}
+
+  <style>
+    /* Drawer overlay */
+    #drawer-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 1000;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+    }
+    #drawer-overlay.open { opacity: 1; pointer-events: auto; }
+
+    /* Base drawer */
+    .drawer {
+      position: fixed; top: 0; right: 0;
+      height: 100vh; width: min(440px, 100vw);
+      background: #13141a;
+      border-left: 1px solid rgba(255,255,255,0.08);
+      transform: translateX(110%);
+      transition: transform .35s cubic-bezier(.4,0,.2,1);
+      z-index: 1001;
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .drawer.open { transform: translateX(0); box-shadow: -8px 0 40px rgba(0,0,0,0.5); }
+
+    /* Search drawer comes from left */
+    #search-drawer {
+      left: 0; right: auto;
+      border-left: none;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      transform: translateX(-110%);
+    }
+    #search-drawer.open { transform: translateX(0); }
+
+    /* Drawer header & close button */
+    .drawer-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      flex-shrink: 0;
+    }
+    .drawer-title { margin: 0; font-size: 16px; font-weight: 600; color: #fff; }
+    .drawer-close {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(255,255,255,0.08);
+      border: none; border-radius: 50%;
+      color: #fff; font-size: 20px; cursor: pointer;
+      flex-shrink: 0;
+      transition: background .2s;
+    }
+    .drawer-close:hover { background: #00D964; color: #000; }
+
+    .drawer-body { flex: 1; overflow-y: auto; padding: 20px; }
+    .drawer-footer { padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08); }
+    .skip-link { position: absolute; top: -40px; left: 0; background: #00D964; color: #000; padding: 8px; z-index: 9999; }
+    .skip-link:focus { top: 0; }
+  </style>
 </head>
 <body class="template-{{ template | replace: '.', '-' | replace: '/', '-' }}{% if customer %} customer-logged-in{% endif %}">
 
   <a class="skip-link" href="#main-content">Skip to content</a>
 
   {% section 'header' %}
-
   {% render 'cart-drawer' %}
   {% render 'search-drawer' %}
 
-  {%- comment -%}Single overlay for all drawers — managed by theme.js{%- endcomment -%}
-  <div id="drawer-overlay" class="drawer-overlay"></div>
+  <div id="drawer-overlay"></div>
 
   <main id="main-content" tabindex="-1">
     {{ content_for_layout }}
@@ -55,6 +100,52 @@
   {{ 'cart.js' | asset_url | script_tag }}
   {{ 'search.js' | asset_url | script_tag }}
 
-  <script>document.documentElement.classList.remove('no-js');</script>
+  <script>
+    /* Inline drawer controller — guaranteed to run, no caching issues */
+    (function() {
+      var ov = document.getElementById('drawer-overlay');
+
+      function closeAll() {
+        document.querySelectorAll('.drawer').forEach(function(d) { d.classList.remove('open'); });
+        if (ov) ov.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function openDrawer(id) {
+        closeAll();
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.classList.add('open');
+        if (ov) ov.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        setTimeout(function() {
+          var inp = el.querySelector('input:not([type=hidden])');
+          if (inp) inp.focus();
+        }, 350);
+      }
+
+      /* Single delegated listener covers everything */
+      document.addEventListener('click', function(e) {
+        /* Close button or overlay */
+        if (e.target.closest('[data-drawer-close]') || e.target === ov) {
+          closeAll();
+          return;
+        }
+        /* Open button */
+        var ob = e.target.closest('[data-drawer-open]');
+        if (ob) {
+          e.preventDefault();
+          openDrawer(ob.getAttribute('data-drawer-open'));
+        }
+      }, true); /* useCapture=true — fires BEFORE any other handler */
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeAll();
+      });
+
+      window.AH = { openDrawer: openDrawer, closeAllDrawers: closeAll };
+      document.documentElement.classList.remove('no-js');
+    })();
+  </script>
 </body>
 </html>
