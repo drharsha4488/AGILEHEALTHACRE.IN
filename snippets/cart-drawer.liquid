@@ -16,12 +16,12 @@
 </div>
 <style>
 .drawer { position: fixed; inset: 0; z-index: 8000; pointer-events: none; }
-.drawer.is-open { pointer-events: all; }
+.drawer.open { pointer-events: all; }
 .drawer-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); opacity: 0; transition: opacity 0.3s; }
-.drawer.is-open .drawer-overlay { opacity: 1; }
+.drawer.open .drawer-overlay { opacity: 1; }
 .drawer-panel { position: absolute; top: 0; bottom: 0; width: 380px; max-width: 100vw; background: #0a1628; display: flex; flex-direction: column; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
 .drawer-panel--right { right: 0; }
-.drawer.is-open .drawer-panel { transform: translateX(0); }
+.drawer.open .drawer-panel { transform: translateX(0); }
 .drawer-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid #1a2a40; flex-shrink: 0; }
 .drawer-title { margin: 0; font-size: 17px; color: #fff; }
 .drawer-close { background: none; border: none; color: #8899aa; font-size: 26px; cursor: pointer; line-height: 1; }
