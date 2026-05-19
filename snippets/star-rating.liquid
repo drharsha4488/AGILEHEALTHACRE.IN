@@ -1,0 +1,31 @@
+{%- comment -%}
+  Renders star rating. Accepts: product (optional)
+{%- endcomment -%}
+
+{%- assign avg = product.metafields.reviews.rating_avg | default: 0 | times: 1.0 -%}
+{%- assign count = product.metafields.reviews.rating_count | default: 0 -%}
+
+<div class="product-rating star-rating" data-rating="{{ avg }}">
+  {%- if count > 0 -%}
+    <div class="stars" aria-label="{{ avg }} out of 5 stars">
+      {%- for i in (1..5) -%}
+        {%- assign threshold = forloop.index | times: 1.0 -%}
+        {%- if avg >= threshold -%}
+          <svg class="star filled" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 7h7.1l-5.7 4.5L18.2 22 12 17.5 5.8 22l1.9-8.5L2 9h7.1z"/></svg>
+        {%- elsif avg >= threshold | minus: 0.5 -%}
+          <svg class="star half" width="16" height="16" viewBox="0 0 24 24"><defs><linearGradient id="half-{{ forloop.index }}-{{ section.id | default: 'x' }}"><stop offset="50%" stop-color="currentColor"/><stop offset="50%" stop-color="transparent"/></linearGradient></defs><path fill="url(#half-{{ forloop.index }}-{{ section.id | default: 'x' }})" stroke="currentColor" d="M12 2l2.9 7h7.1l-5.7 4.5L18.2 22 12 17.5 5.8 22l1.9-8.5L2 9h7.1z"/></svg>
+        {%- else -%}
+          <svg class="star empty" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.9 7h7.1l-5.7 4.5L18.2 22 12 17.5 5.8 22l1.9-8.5L2 9h7.1z"/></svg>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    <span>{{ avg | round: 1 }} ({{ count }} reviews)</span>
+  {%- else -%}
+    <div class="stars">
+      {%- for i in (1..5) -%}
+        <svg class="star empty" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l2.9 7h7.1l-5.7 4.5L18.2 22 12 17.5 5.8 22l1.9-8.5L2 9h7.1z"/></svg>
+      {%- endfor -%}
+    </div>
+    <span>Be the first to review</span>
+  {%- endif -%}
+</div>
