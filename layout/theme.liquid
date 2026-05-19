@@ -3,19 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#050d1a">
+  <meta name="theme-color" content="#0a0a0c">
 
   <title>
     {%- if template == 'index' -%}
-      {{ shop.name }} — Meril Medical Devices Telangana
+      {{ shop.name }} &mdash; Meril Medical Devices Telangana
     {%- elsif template == 'product' -%}
-      {{ product.title }} — {{ shop.name }}
+      {{ product.title }} &mdash; {{ shop.name }}
     {%- elsif template == 'collection' -%}
-      {{ collection.title }} — {{ shop.name }}
+      {{ collection.title }} &mdash; {{ shop.name }}
     {%- elsif template == 'page' -%}
-      {{ page.title }} — {{ shop.name }}
+      {{ page.title }} &mdash; {{ shop.name }}
     {%- else -%}
-      {{ page_title }} — {{ shop.name }}
+      {{ page_title }} &mdash; {{ shop.name }}
     {%- endif -%}
   </title>
 
@@ -30,12 +30,19 @@
 
   {{ content_for_header }}
 
+  {{ 'base.css' | asset_url | stylesheet_tag }}
   {{ 'theme.css' | asset_url | stylesheet_tag }}
 </head>
-<body class="template-{{ template | replace: '.', '-' | replace: '/', '-' }}">
+<body class="template-{{ template | replace: '.', '-' | replace: '/', '-' }}{% if customer %} customer-logged-in{% endif %}">
 
-  {% section 'announcement-bar' %}
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
   {% section 'header' %}
+
+  {% render 'cart-drawer' %}
+  {% render 'search-drawer' %}
+
+  <div id="modal-overlay" class="modal-overlay"></div>
 
   <main id="main-content" tabindex="-1">
     {{ content_for_layout }}
@@ -44,5 +51,11 @@
   {% section 'footer' %}
 
   {{ 'theme.js' | asset_url | script_tag }}
+  {{ 'cart.js' | asset_url | script_tag }}
+  {{ 'search.js' | asset_url | script_tag }}
+
+  <script>
+    document.documentElement.classList.remove('no-js');
+  </script>
 </body>
 </html>
