@@ -1,7 +1,7 @@
 <div id="search-drawer" class="drawer search-drawer">
   <div class="drawer-header">
     <h3 class="drawer-title">Search Products</h3>
-    <button class="drawer-close" data-drawer-close aria-label="Close">&times;</button>
+    <button class="drawer-close" onclick="if(window.AH)window.AH.closeAllDrawers();else{document.querySelectorAll('.drawer').forEach(function(d){d.classList.remove('open')});var o=document.getElementById('drawer-overlay');if(o){o.classList.remove('open')}document.body.style.overflow=''}" aria-label="Close">&times;</button>
   </div>
   <div class="drawer-body" style="padding:20px">
     <form action="/search" method="get" role="search">
