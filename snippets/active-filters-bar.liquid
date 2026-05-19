@@ -1,0 +1,31 @@
+{%- comment -%}Active filter chips bar{%- endcomment -%}
+{%- assign has_active = false -%}
+{%- for filter in collection.filters -%}
+  {%- if filter.active_values.size > 0 -%}{%- assign has_active = true -%}{%- endif -%}
+  {%- if filter.type == 'price_range' and filter.min_value.value != nil or filter.max_value.value != nil -%}
+    {%- assign has_active = true -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- if has_active -%}
+<div class="active-filters-bar">
+  <div class="container">
+    <span class="text-tiny">Active filters:</span>
+    {%- for filter in collection.filters -%}
+      {%- for value in filter.active_values -%}
+        <a href="{{ value.url_to_remove }}" class="active-chip">
+          {{ value.label }} <span class="x">✕</span>
+        </a>
+      {%- endfor -%}
+      {%- if filter.type == 'price_range' -%}
+        {%- if filter.min_value.value or filter.max_value.value -%}
+          <a href="{{ filter.url_to_remove }}" class="active-chip">
+            Price: {{ filter.min_value.value | default: 0 | money }}–{{ filter.max_value.value | default: filter.range_max | money }} <span class="x">✕</span>
+          </a>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+    <a href="{{ collection.url }}" class="active-chip clear">Clear all</a>
+  </div>
+</div>
+{%- endif -%}
