@@ -229,3 +229,42 @@ p{margin:0 0 1em}
 
 /* Focus rings */
 :focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+
+
+/* ── Drawer close button ── */
+.drawer-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--elevated, #1c1d24);
+  color: var(--text, #fff);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  border: 1px solid var(--border, rgba(255,255,255,0.1));
+  transition: background 0.2s, color 0.2s;
+  z-index: 10;
+}
+.drawer-close:hover {
+  background: var(--green, #00D964);
+  color: #000;
+  border-color: var(--green, #00D964);
+}
+.drawer-header {
+  position: relative;
+  padding: 20px 60px 20px 24px;
+  border-bottom: 1px solid var(--border, rgba(255,255,255,0.1));
+  flex-shrink: 0;
+}
+.drawer-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text, #fff);
+}
