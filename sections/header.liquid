@@ -133,23 +133,19 @@
 
 <script>
 (function(){
-  const mt = document.getElementById('mobile-menu-toggle');
-  const mm = document.getElementById('mobile-menu');
-  const mc = document.getElementById('mobile-menu-close');
-  const ov = document.getElementById('drawer-overlay');
-  function open(){ mm.classList.add('open'); ov.classList.add('open'); }
-  function close(){ mm.classList.remove('open'); ov.classList.remove('open'); document.querySelectorAll('.drawer.open').forEach(d=>d.classList.remove('open')); }
-  if(mt) mt.addEventListener('click', open);
-  if(mc) mc.addEventListener('click', close);
-  if(ov) ov.addEventListener('click', close);
-  document.querySelectorAll('[data-drawer-open]').forEach(b=>{
-    b.addEventListener('click', ()=>{
-      const id = b.dataset.drawerOpen;
-      const d = document.getElementById(id);
-      if(d){ d.classList.add('open'); ov.classList.add('open'); }
+  /* Mobile menu only — drawers handled by theme.js */
+  var mt = document.getElementById('mobile-menu-toggle');
+  var mm = document.getElementById('mobile-menu');
+  var mc = document.getElementById('mobile-menu-close');
+  if (mt && mm) {
+    mt.addEventListener('click', function() {
+      mm.classList.toggle('open');
+      mt.setAttribute('aria-expanded', mm.classList.contains('open'));
     });
-  });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
+  }
+  if (mc && mm) {
+    mc.addEventListener('click', function() { mm.classList.remove('open'); });
+  }
 })();
 </script>
 
