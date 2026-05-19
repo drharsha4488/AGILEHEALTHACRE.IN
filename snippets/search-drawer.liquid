@@ -1,86 +1,74 @@
-<div id="search-drawer" class="drawer search-drawer" aria-hidden="true">
-  <div class="drawer-overlay" data-drawer-close="search-drawer"></div>
-  <div class="drawer-panel drawer-panel--left">
-    <div class="drawer-header">
-      <h3 class="drawer-title">Search</h3>
-      <button class="drawer-close" data-drawer-close="search-drawer" aria-label="Close search">&times;</button>
-    </div>
-    <div class="drawer-body">
-      <form action="/search" method="get" class="search-form" role="search">
-        <input type="hidden" name="type" value="product">
-        <div class="search-input-wrap">
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input type="search" name="q" id="search-input" placeholder="Search products, devices..." autocomplete="off" class="search-input">
-        </div>
-      </form>
-      <div id="search-results" class="search-results"></div>
-    </div>
+<div id="search-drawer" class="drawer search-drawer">
+  <div class="drawer-header">
+    <h3 class="drawer-title">Search Products</h3>
+    <button class="drawer-close" data-drawer-close aria-label="Close">&times;</button>
+  </div>
+  <div class="drawer-body" style="padding:20px">
+    <form action="/search" method="get" role="search">
+      <input type="hidden" name="type" value="product">
+      <div style="position:relative;margin-bottom:20px">
+        <svg style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#666;pointer-events:none" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="search" name="q" id="search-input" placeholder="Search devices, brands..." autocomplete="off"
+          style="width:100%;background:var(--elevated,#1c1d24);border:1px solid var(--border,rgba(255,255,255,0.1));color:#fff;padding:12px 12px 12px 44px;border-radius:8px;font-size:15px;box-sizing:border-box;outline:none">
+      </div>
+    </form>
+    <div id="search-results" style="display:flex;flex-direction:column;gap:8px"></div>
   </div>
 </div>
+
 <style>
-.search-drawer .drawer-panel--left { left: 0; right: auto; transform: translateX(-100%); width: 420px; max-width: 100vw; }
-.search-drawer.open .drawer-panel--left { transform: translateX(0); }
-.search-form { margin-bottom: 20px; }
-.search-input-wrap { position: relative; }
-.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #8899aa; pointer-events: none; }
-.search-input { width: 100%; background: #050d1a; border: 1px solid #1a2a40; color: #fff; padding: 12px 12px 12px 44px; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
-.search-input:focus { outline: none; border-color: #00A651; }
-.search-results { display: flex; flex-direction: column; gap: 8px; }
-.sri { display: flex; gap: 12px; align-items: center; padding: 10px; background: #050d1a; border: 1px solid #1a2a40; border-radius: 8px; text-decoration: none; transition: border-color 0.2s; }
-.sri:hover { border-color: #00A651; }
-.sri-img { width: 50px; height: 50px; border-radius: 6px; background-size: cover; background-position: center; background-color: #1a2a40; flex-shrink: 0; }
-.sri-info { flex: 1; min-width: 0; }
-.sri-title { color: #fff; font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sri-price { color: #00A651; font-size: 13px; margin-top: 2px; }
+/* Search drawer — slides in from LEFT */
+#search-drawer {
+  left: 0;
+  right: auto;
+  transform: translateX(-100%);
+  border-left: none;
+  border-right: 1px solid var(--border, rgba(255,255,255,0.1));
+  width: min(420px, 100vw);
+}
+#search-drawer.open { transform: translateX(0); }
+#search-input:focus { border-color: var(--green, #00D964) !important; }
+.sri { display:flex;gap:12px;align-items:center;padding:10px;background:var(--elevated,#1c1d24);border:1px solid var(--border,rgba(255,255,255,0.1));border-radius:8px;text-decoration:none;transition:border-color .2s }
+.sri:hover { border-color:var(--green,#00D964) }
+.sri-img { width:50px;height:50px;border-radius:6px;background-size:cover;background-position:center;background-color:var(--surface,#13141a);flex-shrink:0 }
+.sri-info { flex:1;min-width:0 }
+.sri-title { color:#fff;font-size:14px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis }
+.sri-price { color:var(--green,#00D964);font-size:13px;margin-top:2px }
 </style>
+
 <script>
 (function(){
   var input = document.getElementById('search-input');
   var results = document.getElementById('search-results');
-  if(!input || !results) return;
+  if (!input || !results) return;
   var timer;
   input.addEventListener('input', function(){
     clearTimeout(timer);
     var q = this.value.trim();
-    if(q.length < 2){ results.innerHTML = ''; return; }
+    if (q.length < 2) { results.innerHTML = ''; return; }
     timer = setTimeout(function(){
       fetch('/search/suggest.json?q=' + encodeURIComponent(q) + '&resources[type]=product&resources[limit]=6')
         .then(function(r){ return r.json(); })
         .then(function(data){
           results.innerHTML = '';
           var prods = (data.resources && data.resources.results && data.resources.results.products) || [];
-          if(!prods.length){
-            results.innerHTML = '<p style="color:#8899aa;font-size:14px;padding:12px">No results found.</p>';
+          if (!prods.length) {
+            results.innerHTML = '<p style="color:#888;font-size:14px;padding:8px">No results found.</p>';
             return;
           }
-          var fmt = function(c){ return new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',minimumFractionDigits:0}).format(parseInt(c)/100); };
           prods.forEach(function(p){
-            var imgUrl = (p.featured_image && p.featured_image.url) ? p.featured_image.url : '';
+            var img = (p.featured_image && p.featured_image.url) ? p.featured_image.url : '';
+            var price = p.price ? new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',minimumFractionDigits:0}).format(parseInt(p.price)/100) : '';
             var a = document.createElement('a');
             a.className = 'sri';
             a.href = p.url;
-            a.innerHTML = '<div class="sri-img" style="background-image:url(' + imgUrl + ')"></div>'
+            a.innerHTML = '<div class="sri-img" style="background-image:url(' + img + ')"></div>'
               + '<div class="sri-info"><div class="sri-title">' + p.title + '</div>'
-              + (p.price ? '<div class="sri-price">' + fmt(p.price) + '</div>' : '')
-              + '</div>';
+              + (price ? '<div class="sri-price">' + price + '</div>' : '') + '</div>';
             results.appendChild(a);
           });
-        })
-        .catch(function(e){ console.error('Search error:', e); });
+        }).catch(function(){});
     }, 300);
   });
-
-  // Auto-focus when drawer opens
-  var drawer = document.getElementById('search-drawer');
-  if(drawer){
-    var observer = new MutationObserver(function(mutations){
-      mutations.forEach(function(m){
-        if(m.type === 'attributes' && drawer.classList.contains('open')){
-          setTimeout(function(){ input.focus(); }, 100);
-        }
-      });
-    });
-    observer.observe(drawer, { attributes: true, attributeFilter: ['class'] });
-  }
 })();
 </script>
