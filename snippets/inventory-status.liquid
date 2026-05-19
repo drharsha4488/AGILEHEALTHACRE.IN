@@ -1,0 +1,51 @@
+{%- comment -%}Inventory status indicator. Accepts: variant{%- endcomment -%}
+{%- liquid
+  assign qty = variant.inventory_quantity
+  assign managed = false
+  if variant.inventory_management != blank
+    assign managed = true
+  endif
+  assign policy = variant.inventory_policy
+-%}
+
+{%- if managed == false -%}
+  <div class="inventory-status in-stock">
+    <span class="dot"></span>
+    <div>
+      <span>Available</span>
+      <span class="pickup">Available for pickup at Hyderabad HQ</span>
+    </div>
+  </div>
+{%- elsif qty > 10 -%}
+  <div class="inventory-status in-stock">
+    <span class="dot"></span>
+    <div>
+      <span>In Stock — Ships in 2 hours</span>
+      <span class="pickup">Available for pickup at Hyderabad HQ</span>
+    </div>
+  </div>
+{%- elsif qty > 0 -%}
+  <div class="inventory-status low">
+    <span class="dot"></span>
+    <div>
+      <span>Only {{ qty }} left in stock</span>
+      <span class="pickup">Available for pickup at Hyderabad HQ</span>
+    </div>
+  </div>
+{%- elsif policy == 'continue' -%}
+  <div class="inventory-status backorder">
+    <span class="dot"></span>
+    <div>
+      <span>Available on Backorder · 5–7 days</span>
+      <span class="pickup">Reserve now — ships when available</span>
+    </div>
+  </div>
+{%- else -%}
+  <div class="inventory-status out">
+    <span class="dot"></span>
+    <div>
+      <span>Sold Out</span>
+      <span class="pickup">Contact us for ETA</span>
+    </div>
+  </div>
+{%- endif -%}
