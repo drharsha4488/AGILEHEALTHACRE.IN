@@ -1,0 +1,49 @@
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <ol class="breadcrumb-list">
+    <li class="breadcrumb-item">
+      <a href="/" class="breadcrumb-link">Home</a>
+    </li>
+    {%- if template == 'collection' -%}
+      <li class="breadcrumb-item">
+        <a href="/collections" class="breadcrumb-link">Collections</a>
+      </li>
+      <li class="breadcrumb-item breadcrumb-item--active" aria-current="page">
+        {{ collection.title }}
+      </li>
+    {%- elsif template == 'product' -%}
+      {%- if collection -%}
+        <li class="breadcrumb-item">
+          <a href="{{ collection.url }}" class="breadcrumb-link">{{ collection.title }}</a>
+        </li>
+      {%- endif -%}
+      <li class="breadcrumb-item breadcrumb-item--active" aria-current="page">
+        {{ product.title | truncate: 40 }}
+      </li>
+    {%- elsif template == 'page' -%}
+      <li class="breadcrumb-item breadcrumb-item--active" aria-current="page">
+        {{ page.title }}
+      </li>
+    {%- elsif template == 'blog' -%}
+      <li class="breadcrumb-item breadcrumb-item--active" aria-current="page">
+        {{ blog.title }}
+      </li>
+    {%- elsif template == 'article' -%}
+      <li class="breadcrumb-item">
+        <a href="{{ blog.url }}" class="breadcrumb-link">{{ blog.title }}</a>
+      </li>
+      <li class="breadcrumb-item breadcrumb-item--active" aria-current="page">
+        {{ article.title | truncate: 40 }}
+      </li>
+    {%- endif -%}
+  </ol>
+</nav>
+<style>
+.breadcrumbs{padding:16px 0 8px}
+.breadcrumb-list{display:flex;flex-wrap:wrap;gap:4px;list-style:none;margin:0;padding:0;align-items:center}
+.breadcrumb-item{display:flex;align-items:center;gap:4px;font-size:13px;color:var(--text-2,#a1a1aa)}
+.breadcrumb-item::before{content:'/';margin-right:4px;color:var(--text-3,#52525b)}
+.breadcrumb-item:first-child::before{display:none}
+.breadcrumb-link{color:var(--text-2,#a1a1aa);text-decoration:none;transition:color .2s}
+.breadcrumb-link:hover{color:var(--green,#00D964)}
+.breadcrumb-item--active{color:var(--text,#fff)}
+</style>
