@@ -1,0 +1,55 @@
+{%- comment -%}
+  Renders visual variant swatches.
+  Accepts: product
+{%- endcomment -%}
+
+{%- for option in product.options_with_values -%}
+  {%- assign opt_name = option.name | downcase -%}
+  {%- assign is_color = false -%}
+  {%- assign is_size = false -%}
+  {%- if opt_name contains 'color' or opt_name contains 'colour' -%}{%- assign is_color = true -%}{%- endif -%}
+  {%- if opt_name contains 'size' -%}{%- assign is_size = true -%}{%- endif -%}
+
+  <div class="variant-group" data-option-group="{{ option.name | handleize }}">
+    <div class="variant-label">
+      <span>{{ option.name }}</span>
+      <span class="selected-value">{{ option.selected_value }}</span>
+    </div>
+    <div class="variant-options" role="radiogroup" aria-label="{{ option.name }}">
+      {%- for value in option.values -%}
+        {%- assign is_selected = false -%}
+        {%- if option.selected_value == value -%}{%- assign is_selected = true -%}{%- endif -%}
+
+        {%- if is_color -%}
+          <button type="button"
+            class="variant-swatch color {% if is_selected %}selected{% endif %}"
+            data-option-btn data-value="{{ value | escape }}"
+            style="background:{{ value | downcase | replace: ' ', '' }};"
+            title="{{ value | escape }}"
+            aria-label="{{ value | escape }}">
+            <span class="visually-hidden">{{ value | escape }}</span>
+          </button>
+        {%- elsif is_size -%}
+          <button type="button"
+            class="variant-swatch size {% if is_selected %}selected{% endif %}"
+            data-option-btn data-value="{{ value | escape }}"
+            style="min-width:54px">
+            {{ value | escape }}
+          </button>
+        {%- else -%}
+          <button type="button"
+            class="variant-swatch {% if is_selected %}selected{% endif %}"
+            data-option-btn data-value="{{ value | escape }}">
+            {{ value | escape }}
+          </button>
+        {%- endif -%}
+
+        <input type="radio" name="options[{{ option.name | handleize }}]" value="{{ value | escape }}"
+               style="display:none" {% if is_selected %}checked{% endif %}>
+      {%- endfor -%}
+    </div>
+    {%- if is_size -%}
+      <button type="button" class="btn btn-ghost btn-sm" data-open-modal="size-guide" style="align-self:start;margin-top:4px">📏 Size Guide</button>
+    {%- endif -%}
+  </div>
+{%- endfor -%}
