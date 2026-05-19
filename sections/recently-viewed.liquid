@@ -1,0 +1,51 @@
+{%- comment -%}Recently viewed (localStorage-driven){%- endcomment -%}
+<section class="recently-viewed-section" id="recently-viewed-section" style="padding:48px 0;border-top:1px solid var(--border);display:none">
+  <div class="container">
+    <div class="section-heading">
+      <h2>{{ section.settings.heading | default: 'Recently Viewed' }}</h2>
+    </div>
+    <div class="carousel">
+      <button class="carousel-btn prev" aria-label="Previous">‹</button>
+      <div class="carousel-track" id="recently-viewed-grid"></div>
+      <button class="carousel-btn next" aria-label="Next">›</button>
+    </div>
+  </div>
+</section>
+<script>
+(function(){
+  const current = {{ product.handle | default: '""' | json }};
+  let list;
+  try { list = JSON.parse(localStorage.getItem('ah_recently_viewed') || '[]'); } catch(e){ list=[]; }
+  list = list.filter(h => h && h !== current).slice(0,8);
+  if(!list.length) return;
+  const section = document.getElementById('recently-viewed-section');
+  const grid = document.getElementById('recently-viewed-grid');
+  Promise.all(list.map(h =>
+    fetch('/products/' + h + '.json').then(r => r.ok ? r.json() : null).catch(()=>null)
+  )).then(results => {
+    const html = results.filter(Boolean).map(r => {
+      const p = r.product;
+      const img = (p.images && p.images[0]) || '';
+      const price = (p.variants && p.variants[0] && p.variants[0].price) || '';
+      return `<a href="/products/${p.handle}" class="product-card" style="text-decoration:none">
+        <div class="product-card-media"><img src="${img}" alt="${p.title}" loading="lazy"></div>
+        <div class="product-card-body">
+          <div class="product-card-vendor">${p.vendor||''}</div>
+          <div class="product-card-title">${p.title}</div>
+          <div class="product-card-price">₹${price}</div>
+        </div>
+      </a>`;
+    }).join('');
+    if(html){ grid.innerHTML = html; section.style.display = 'block'; }
+  });
+})();
+</script>
+{% schema %}
+{
+  "name": "Recently Viewed",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Recently Viewed" }
+  ],
+  "presets": [{ "name": "Recently Viewed" }]
+}
+{% endschema %}
