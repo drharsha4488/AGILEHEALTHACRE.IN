@@ -1,195 +1,275 @@
-<style>
-.product-page-wrap { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
-.product-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-.product-gallery { position: sticky; top: 80px; }
-.product-gallery-main { aspect-ratio: 1; border-radius: 10px; overflow: hidden; background: #0a1628; margin-bottom: 12px; }
-.product-gallery-main img { width: 100%; height: 100%; object-fit: contain; }
-.product-gallery-main-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #8899aa; }
-.product-gallery-thumbs { display: flex; gap: 8px; flex-wrap: wrap; }
-.thumb { width: 70px; height: 70px; border-radius: 6px; overflow: hidden; cursor: pointer; border: 2px solid transparent; background: #0a1628; transition: border-color 0.2s; flex-shrink: 0; }
-.thumb img { width: 100%; height: 100%; object-fit: cover; }
-.thumb.active, .thumb:hover { border-color: #00A651; }
-.product-info { }
-.product-breadcrumbs { font-size: 12px; color: #8899aa; margin-bottom: 16px; }
-.product-breadcrumbs a { color: #8899aa; text-decoration: none; }
-.product-breadcrumbs a:hover { color: #00A651; }
-.product-vendor { font-size: 12px; color: #00A651; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: inline-block; background: rgba(0,166,81,0.1); padding: 3px 10px; border-radius: 20px; }
-.product-title { font-size: 28px; font-weight: 700; color: #fff; margin: 0 0 16px; line-height: 1.3; }
-.product-price-wrap { margin-bottom: 16px; }
-.product-price { font-size: 26px; font-weight: 700; color: #00A651; }
-.product-price-compare { font-size: 16px; color: #8899aa; text-decoration: line-through; margin-left: 8px; }
-.availability-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
-.availability-badge--in { background: rgba(0,166,81,0.1); color: #00A651; }
-.availability-badge--out { background: rgba(255,68,68,0.1); color: #ff4444; }
-.availability-badge--low { background: rgba(255,165,0,0.1); color: orange; }
-.availability-badge::before { content: "●"; font-size: 8px; }
-.product-short-desc { color: #8899aa; font-size: 14px; line-height: 1.6; margin-bottom: 24px; border-bottom: 1px solid #1a2a40; padding-bottom: 20px; }
-.product-form { }
-.product-form-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
-.btn-add-to-cart { background: #00A651; color: #fff; border: none; padding: 14px 28px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; flex: 1; transition: background 0.2s; }
-.btn-add-to-cart:hover { background: #008f44; }
-.btn-quote { background: transparent; border: 1px solid #00A651; color: #00A651; padding: 14px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
-.btn-quote:hover { background: rgba(0,166,81,0.1); }
-.trust-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
-.trust-badge { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #8899aa; background: #0a1628; border: 1px solid #1a2a40; border-radius: 20px; padding: 5px 12px; }
-.trust-badge svg { color: #00A651; }
-.product-tabs-wrap { margin-top: 48px; }
-.related-products { margin-top: 60px; }
-.related-products h2 { font-size: 22px; color: #fff; margin-bottom: 24px; }
-@media(max-width:900px){ .product-layout { grid-template-columns: 1fr; } .product-gallery { position: static; } }
-</style>
+{{ 'product-page.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-page.js' | asset_url }}" defer></script>
 
-<div class="product-page-wrap">
-  <div class="product-layout">
-    <!-- Gallery -->
-    <div class="product-gallery">
-      <div class="product-gallery-main">
-        {%- if product.featured_image -%}
-          <img id="product-main-img" src="{{ product.featured_image | image_url: width: 800 }}" alt="{{ product.featured_image.alt | escape }}" loading="eager">
-        {%- else -%}
-          <div class="product-gallery-main-placeholder">{{ 'product-1' | placeholder_svg_tag }}</div>
-        {%- endif -%}
-      </div>
-      {%- if product.images.size > 1 -%}
-        <div class="product-gallery-thumbs">
-          {%- for image in product.images -%}
-            <div class="thumb{% if forloop.first %} active{% endif %}" data-src="{{ image | image_url: width: 800 }}" data-idx="{{ forloop.index0 }}">
-              <img src="{{ image | image_url: width: 150 }}" alt="{{ image.alt | escape }}" loading="lazy">
-            </div>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
+<div class="product-page-wrap" data-product-id="{{ product.id }}" data-product-handle="{{ product.handle }}">
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+
+  <div class="product-gallery">
+    <div class="product-gallery-thumbs">
+      {%- for image in product.images -%}
+        <button type="button" class="product-gallery-thumb {% if forloop.first %}active{% endif %}"
+          data-gallery-thumb data-fullsrc="{{ image | image_url: width: 1200 }}" aria-label="View image {{ forloop.index }}">
+          <img src="{{ image | image_url: width: 180 }}" alt="{{ image.alt | escape }}" loading="lazy" width="88" height="88">
+        </button>
+      {%- endfor -%}
     </div>
-
-    <!-- Info -->
-    <div class="product-info">
-      <div class="product-breadcrumbs">
-        <a href="/">Home</a> &rsaquo;
-        {%- if product.collections.first -%}
-          <a href="{{ product.collections.first.url }}">{{ product.collections.first.title }}</a> &rsaquo;
-        {%- endif -%}
-        <span>{{ product.title }}</span>
-      </div>
-
-      {%- if product.vendor != blank -%}
-        <span class="product-vendor">{{ product.vendor }}</span>
-      {%- endif -%}
-
-      <h1 class="product-title">{{ product.title }}</h1>
-
-      <div class="product-price-wrap">
-        {%- render 'price', product: product -%}
-      </div>
-
-      {%- if product.available -%}
-        {%- assign inventory_qty = product.selected_or_first_available_variant.inventory_quantity -%}
-        {%- if inventory_qty > 10 -%}
-          <span class="availability-badge availability-badge--in">In Stock</span>
-        {%- elsif inventory_qty > 0 -%}
-          <span class="availability-badge availability-badge--low">Low Stock — {{ inventory_qty }} left</span>
-        {%- else -%}
-          <span class="availability-badge availability-badge--in">Available</span>
-        {%- endif -%}
+    <div class="product-gallery-main zoom-container" data-zoom-container>
+      {%- if product.featured_image -%}
+        <img src="{{ product.featured_image | image_url: width: 1400 }}"
+             alt="{{ product.featured_image.alt | escape }}"
+             data-gallery-main-img class="zoom-main"
+             width="1400" height="1400">
       {%- else -%}
-        <span class="availability-badge availability-badge--out">Out of Stock</span>
+        {{ 'product-1' | placeholder_svg_tag }}
       {%- endif -%}
-
-      <div class="product-short-desc">{{ product.description | strip_html | truncate: 200 }}</div>
-
-      {%- form 'product', product, data-product-form: '', data-product-id: product.id -%}
-        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-
-        {%- render 'variant-picker', product: product -%}
-        {%- render 'quantity-input' -%}
-
-        <div class="product-form-actions">
-          {%- if product.tags contains 'quote-only' -%}
-            <button type="button" class="btn-add-to-cart" data-open-quote>Request a Quote</button>
-          {%- else -%}
-            <button type="submit" name="add" class="btn-add-to-cart" data-add-to-cart>
-              {%- if product.available -%}Add to Cart{%- else -%}Out of Stock{%- endif -%}
-            </button>
-            <button type="button" class="btn-quote" data-open-quote>Request a Quote</button>
-          {%- endif -%}
-        </div>
-
-        <div class="trust-badges">
-          <span class="trust-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>CDSCO Licensed</span>
-          <span class="trust-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>ISO 13485</span>
-          <span class="trust-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>GMP Certified</span>
-          <span class="trust-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>2-Hr Dispatch</span>
-        </div>
-      {%- endform -%}
+      <div class="zoom-lens"></div>
+      <div class="zoom-result"></div>
+    </div>
+    <div class="gallery-dots">
+      {%- for image in product.images -%}
+        <span class="dot {% if forloop.first %}active{% endif %}" data-gallery-dot></span>
+      {%- endfor -%}
     </div>
   </div>
 
-  <!-- Product Tabs -->
-  <div class="product-tabs-wrap">
-    {%- render 'product-tabs', product: product -%}
-  </div>
+  <div class="product-info">
+    {%- render 'breadcrumbs' -%}
 
-  <!-- Related -->
-  <div class="related-products">
-    <h2>Related Products</h2>
-    <div id="product-recommendations" class="product-grid product-grid--4"></div>
+    {%- if product.vendor != blank -%}
+      <div class="product-brand-badge">{{ product.vendor }}</div>
+    {%- endif -%}
+
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'title' -%}
+          <h1 class="product-title" {{ block.shopify_attributes }}>{{ product.title | escape }}</h1>
+        {%- when 'rating' -%}
+          {%- render 'star-rating', product: product -%}
+        {%- when 'price' -%}
+          <div class="product-price-block" {{ block.shopify_attributes }}>
+            {%- render 'price', product: product, show_volume: true -%}
+          </div>
+          {%- render 'customer-pricing', product: product -%}
+        {%- when 'inventory' -%}
+          {%- render 'inventory-status', variant: current_variant -%}
+        {%- when 'variant_picker' -%}
+          {%- unless product.has_only_default_variant -%}
+            <div class="product-variant-picker" {{ block.shopify_attributes }}>
+              {%- render 'variant-picker', product: product -%}
+            </div>
+          {%- endunless -%}
+        {%- when 'volume_pricing' -%}
+          {%- render 'volume-pricing', product: product -%}
+        {%- when 'description' -%}
+          {%- comment -%} description shown in tab below {%- endcomment -%}
+        {%- when 'share' -%}
+          <div class="wishlist-share-row">
+            {%- render 'wishlist-button', product: product -%}
+            {%- render 'share-buttons' -%}
+          </div>
+        {%- when 'custom_liquid' -%}
+          <div {{ block.shopify_attributes }}>{{ block.settings.custom_liquid }}</div>
+        {%- when '@app' -%}
+          {%- render block -%}
+      {%- endcase -%}
+    {%- endfor -%}
+
+    <form action="{{ routes.cart_add_url }}" method="post" enctype="multipart/form-data"
+          data-product-form id="product-form-{{ section.id }}" novalidate>
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id>
+
+      <div class="product-meta-row">
+        <div><span class="label">SKU:</span><span class="val">{{ current_variant.sku | default: 'AH-' | append: product.id }}</span></div>
+        {%- if product.metafields.custom.regulatory_approvals -%}
+          <div><span class="label">Reg:</span><span class="val">{{ product.metafields.custom.regulatory_approvals | join: ' · ' }}</span></div>
+        {%- endif -%}
+      </div>
+
+      {%- render 'line-item-properties' -%}
+      {%- render 'selling-plans', product: product -%}
+
+      <div style="display:flex;gap:10px;align-items:end;margin-top:8px">
+        {%- render 'quantity-input', product: product -%}
+      </div>
+
+      <div class="product-buy-buttons">
+        {%- if product.tags contains 'quote-only' -%}
+          <a href="/pages/quote?product={{ product.handle }}" class="btn btn-blue btn-lg btn-block" data-open-quote>
+            Request a Quote
+          </a>
+        {%- else -%}
+          <button type="submit" class="btn btn-primary btn-lg btn-block"
+                  data-add-to-cart
+                  {% if current_variant.available == false %}disabled{% endif %}>
+            {%- if current_variant.available -%}Add to Cart{%- else -%}Sold Out{%- endif -%}
+          </button>
+          <a href="/pages/quote?product={{ product.handle }}" class="btn btn-secondary btn-block">
+            Request a Quote
+          </a>
+        {%- endif -%}
+      </div>
+    </form>
+
+    {%- render 'shipping-estimate' -%}
+
+    <div class="product-trust-bar" aria-label="Trust signals">
+      <div class="trust-item"><div class="trust-icon">⚡</div>2-Hr Dispatch</div>
+      <div class="trust-item"><div class="trust-icon">✓</div>CDSCO Approved</div>
+      <div class="trust-item"><div class="trust-icon">⚙</div>ISO 13485</div>
+      <div class="trust-item"><div class="trust-icon">↺</div>Easy Returns</div>
+    </div>
   </div>
 </div>
 
-{%- render 'request-quote-form', product: product -%}
+<nav class="product-tabs-sticky-nav" aria-label="Product details navigation">
+  <div class="container">
+    <a href="#description">Description</a>
+    <a href="#specifications">Specifications</a>
+    <a href="#technique">Surgical Technique</a>
+    <a href="#documents">Documents</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#qa">Q&amp;A</a>
+  </div>
+</nav>
 
-<script>
-(function(){
-  // Thumbnail switcher
-  var mainImg = document.getElementById('product-main-img');
-  document.querySelectorAll('.thumb').forEach(function(thumb){
-    thumb.addEventListener('click', function(){
-      if(mainImg) mainImg.src = this.dataset.src;
-      document.querySelectorAll('.thumb').forEach(function(t){ t.classList.remove('active'); });
-      this.classList.add('active');
-    });
-  });
+<section id="description" class="product-tab-panel">
+  <h2>Description</h2>
+  <div class="rte">{{ product.description }}</div>
+</section>
 
-  // Add to cart
-  var form = document.querySelector('[data-product-form]');
-  if(form){
-    form.addEventListener('submit', function(e){
-      var btn = form.querySelector('[data-add-to-cart]');
-      if(!btn) return;
-      e.preventDefault();
-      btn.disabled = true; btn.textContent = 'Adding...';
-      var fd = new FormData(form);
-      fetch('/cart/add.js', { method: 'POST', body: fd })
-        .then(function(r){ return r.json(); })
-        .then(function(){
-          btn.textContent = 'Added!';
-          document.dispatchEvent(new Event('cart:updated'));
-          var drawer = document.getElementById('cart-drawer');
-          if(drawer){ drawer.classList.add('is-open'); drawer.removeAttribute('aria-hidden'); document.body.style.overflow='hidden'; }
-          setTimeout(function(){ btn.disabled=false; btn.textContent='Add to Cart'; }, 2000);
-        }).catch(function(){ btn.disabled=false; btn.textContent='Add to Cart'; });
-    });
+<section id="specifications" class="product-tab-panel">
+  <h2>Specifications</h2>
+  {%- if product.metafields.custom.specifications -%}
+    <div class="rte">{{ product.metafields.custom.specifications | metafield_tag }}</div>
+  {%- else -%}
+    <table>
+      <tr><th>Vendor</th><td>{{ product.vendor }}</td></tr>
+      <tr><th>SKU</th><td>{{ current_variant.sku }}</td></tr>
+      <tr><th>Product Type</th><td>{{ product.type }}</td></tr>
+      {%- if product.metafields.custom.regulatory_approvals -%}
+        <tr><th>Regulatory</th><td>{{ product.metafields.custom.regulatory_approvals | join: ', ' }}</td></tr>
+      {%- endif -%}
+      {%- if product.metafields.custom.minimum_order_qty -%}
+        <tr><th>Minimum Order Qty</th><td>{{ product.metafields.custom.minimum_order_qty }}</td></tr>
+      {%- endif -%}
+    </table>
+  {%- endif -%}
+</section>
+
+<section id="technique" class="product-tab-panel">
+  <h2>Surgical Technique</h2>
+  {%- if product.metafields.custom.surgical_technique_pdf -%}
+    <p><a href="{{ product.metafields.custom.surgical_technique_pdf | file_url }}" class="btn btn-secondary" target="_blank" rel="noopener">⬇ Download Surgical Technique Guide (PDF)</a></p>
+  {%- else -%}
+    <p class="text-mute">Surgical technique guide available on request. Please contact our clinical team at <a href="mailto:info@agilehealthcare.in">info@agilehealthcare.in</a>.</p>
+  {%- endif -%}
+</section>
+
+<section id="documents" class="product-tab-panel">
+  <h2>Documents &amp; Downloads</h2>
+  {%- if product.metafields.custom.downloads -%}
+    <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px">
+      {%- for doc in product.metafields.custom.downloads.value -%}
+        <li><a href="{{ doc | file_url }}" target="_blank" rel="noopener" class="btn btn-secondary">⬇ {{ doc.name | default: 'Download document' }}</a></li>
+      {%- endfor -%}
+    </ul>
+  {%- else -%}
+    <p class="text-mute">IFU, MSDS, certificates available upon request.</p>
+  {%- endif -%}
+</section>
+
+<section id="reviews" class="product-tab-panel">
+  <h2>Customer Reviews</h2>
+  <div class="reviews-summary">
+    <div>
+      <div class="big-score">{{ product.metafields.reviews.rating_avg | default: '—' }}</div>
+      <div class="text-mute">{{ product.metafields.reviews.rating_count | default: 0 }} reviews</div>
+    </div>
+    <div class="bars">
+      {%- for i in (1..5) reversed -%}
+        <div class="bar"><span>{{ i }}★</span><span class="track"><span class="fill" style="width:{{ 20 | times: i }}%"></span></span><span>—</span></div>
+      {%- endfor -%}
+    </div>
+  </div>
+  <p class="text-mute mt-4">Reviews powered by Shopify Product Reviews. Verified buyers only.</p>
+</section>
+
+<section id="qa" class="product-tab-panel">
+  <h2>Questions &amp; Answers</h2>
+  <details class="qa-item"><summary>Is this product CDSCO approved?</summary><div class="answer">Yes, all products carried by AgileHealthcare meet CDSCO regulatory requirements for the Indian market.</div></details>
+  <details class="qa-item"><summary>What is the typical delivery time?</summary><div class="answer">2 hours within Hyderabad city, same-day across Telangana, 1–3 days pan-India.</div></details>
+  <details class="qa-item"><summary>Do you offer bulk discounts?</summary><div class="answer">Yes — see the volume pricing table above, or contact us for institutional pricing.</div></details>
+  <p class="mt-6"><a href="/pages/contact?subject=Question+about+{{ product.title | url_encode }}" class="btn btn-secondary">Ask a Question</a></p>
+</section>
+
+{%- render 'sticky-cart-bar', product: product, variant: current_variant -%}
+{%- render 'size-guide-modal' -%}
+
+{% section 'related-products' %}
+{% section 'recently-viewed' %}
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [{{ product.featured_image | image_url: width: 1200 | json }}],
+  "description": {{ product.description | strip_html | truncatewords: 50 | json }},
+  "sku": {{ current_variant.sku | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "offers": {
+    "@type": "Offer",
+    "url": {{ shop.url | append: product.url | json }},
+    "priceCurrency": {{ cart.currency.iso_code | json }},
+    "price": "{{ current_variant.price | money_without_currency | strip_html | remove: ',' }}",
+    "availability": "{% if current_variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}"
   }
-
-  // Product recommendations
-  var recContainer = document.getElementById('product-recommendations');
-  if(recContainer){
-    var pid = recContainer.closest('[data-product-id]') || document.querySelector('[data-product-id]');
-    var productId = pid ? pid.dataset.productId : null;
-    if(productId){
-      fetch('/recommendations/products.json?product_id='+productId+'&limit=4')
-        .then(function(r){ return r.json(); })
-        .then(function(data){
-          if(data.products && data.products.length){
-            recContainer.innerHTML = data.products.map(function(p){
-              return '<a href="'+p.url+'" class="product-card"><div class="product-card-media" style="background-image:url(\''+p.featured_image+'\')"></div><div class="product-card-info"><div class="product-card-title">'+p.title+'</div></div></a>';
-            }).join('');
-          }
-        }).catch(function(){});
-    }
-  }
-})();
+}
 </script>
 
 {% schema %}
-{"name":"Main Product","settings":[],"presets":[{"name":"Main Product"}]}
+{
+  "name": "Main Product",
+  "tag": "section",
+  "class": "section-main-product",
+  "settings": [
+    { "type": "checkbox", "id": "show_vendor", "label": "Show vendor", "default": true },
+    { "type": "checkbox", "id": "enable_sticky_cart", "label": "Enable sticky cart bar", "default": true }
+  ],
+  "blocks": [
+    { "type": "vendor", "name": "Vendor", "limit": 1 },
+    { "type": "title", "name": "Title", "limit": 1 },
+    { "type": "rating", "name": "Rating", "limit": 1 },
+    { "type": "price", "name": "Price", "limit": 1 },
+    { "type": "inventory", "name": "Inventory", "limit": 1 },
+    { "type": "variant_picker", "name": "Variant Picker", "limit": 1 },
+    { "type": "volume_pricing", "name": "Volume Pricing", "limit": 1 },
+    { "type": "quantity", "name": "Quantity Selector", "limit": 1 },
+    { "type": "buy_buttons", "name": "Buy Buttons", "limit": 1 },
+    { "type": "description", "name": "Description" },
+    { "type": "specs", "name": "Specifications" },
+    { "type": "share", "name": "Share + Wishlist", "limit": 1 },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        { "type": "liquid", "id": "custom_liquid", "label": "Liquid code" }
+      ]
+    },
+    { "type": "@app" }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "title" },
+      { "type": "rating" },
+      { "type": "price" },
+      { "type": "inventory" },
+      { "type": "variant_picker" },
+      { "type": "quantity" },
+      { "type": "buy_buttons" },
+      { "type": "share" }
+    ]
+  },
+  "presets": [{ "name": "Main Product" }]
+}
 {% endschema %}
