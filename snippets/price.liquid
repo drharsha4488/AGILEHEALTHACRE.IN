@@ -1,0 +1,79 @@
+{%- comment -%}
+  Comprehensive price display. Accepts: product (or variant), show_volume (bool)
+{%- endcomment -%}
+
+{%- liquid
+  assign target = product
+  assign variant = product.selected_or_first_available_variant
+  assign price = variant.price
+  assign compare = variant.compare_at_price
+  assign on_sale = false
+  if compare > price
+    assign on_sale = true
+  endif
+
+  assign tier_pct = 0
+  assign tier_name = ''
+  if customer
+    if customer.tags contains 'tier-platinum'
+      assign tier_pct = 15
+      assign tier_name = 'Platinum'
+    elsif customer.tags contains 'tier-gold'
+      assign tier_pct = 10
+      assign tier_name = 'Gold'
+    elsif customer.tags contains 'tier-silver'
+      assign tier_pct = 5
+      assign tier_name = 'Silver'
+    endif
+  endif
+
+  assign tier_price = price
+  if tier_pct > 0
+    assign discount_amt = price | times: tier_pct | divided_by: 100
+    assign tier_price = price | minus: discount_amt
+  endif
+-%}
+
+<div class="price-wrap" data-product-price>
+  {%- if product.tags contains 'quote-only' -%}
+    <a href="/pages/quote?product={{ product.handle }}" class="btn btn-blue btn-sm">Request Quote for Pricing</a>
+
+  {%- elsif product.tags contains 'b2b-only' and customer == nil -%}
+    <a href="/account/login" class="btn btn-secondary btn-sm">🔒 Log in for B2B price</a>
+
+  {%- elsif product.price_varies and on_sale == false -%}
+    <div class="product-price-main">From {{ product.price_min | money }}</div>
+
+  {%- elsif on_sale -%}
+    {%- assign save_pct = compare | minus: price | times: 100 | divided_by: compare -%}
+    <div class="product-price-main sale">{{ price | money }}
+      <span class="product-price-compare">{{ compare | money }}</span>
+      <span class="product-price-save">Save {{ save_pct }}%</span>
+    </div>
+
+  {%- elsif tier_pct > 0 -%}
+    <div class="product-price-main">{{ tier_price | money }}
+      <span class="product-price-compare">{{ price | money }}</span>
+      <span class="tag tag-green" style="margin-left:8px">B2B {{ tier_name }} · {{ tier_pct }}% off</span>
+    </div>
+
+  {%- else -%}
+    <div class="product-price-main">{{ price | money }}</div>
+  {%- endif -%}
+
+  {%- if variant.unit_price_measurement -%}
+    <div class="product-price-unit">
+      {{ variant.unit_price | money }} / {{ variant.unit_price_measurement.reference_value }}{{ variant.unit_price_measurement.reference_unit }}
+    </div>
+  {%- endif -%}
+
+  {%- if shop.taxes_included -%}
+    <div class="product-price-tax">Inclusive of GST</div>
+  {%- else -%}
+    <div class="product-price-tax">Exclusive of GST</div>
+  {%- endif -%}
+</div>
+
+{%- if show_volume -%}
+  {%- render 'volume-pricing', product: product -%}
+{%- endif -%}
