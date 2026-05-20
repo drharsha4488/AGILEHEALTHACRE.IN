@@ -1,79 +1,78 @@
-{{ 'collection.css' | asset_url | stylesheet_tag }}
-
-<section class="page-hero">
+<style>
+.divs-hero{padding:60px 0 40px;text-align:center;background:linear-gradient(135deg,#0a0a0c 60%,#0d1f0f)}
+.divs-hero h1{font-size:clamp(32px,5vw,52px);font-weight:800;margin:0 0 12px;color:#fff}
+.divs-hero p{color:#a1a1aa;font-size:16px;max-width:560px;margin:0 auto}
+.divs-section{padding:40px 0 0}
+.divs-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#00D964;margin-bottom:8px}
+.divs-title{font-size:22px;font-weight:700;color:#fff;margin:0 0 20px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,0.08)}
+.divs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px;margin-bottom:40px}
+.div-card{background:#13141a;border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:20px 16px;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px;transition:border-color .2s,transform .2s}
+.div-card:hover{border-color:#00D964;transform:translateY(-3px)}
+.div-icon{font-size:28px;line-height:1}
+.div-name{font-size:14px;font-weight:600;color:#fff;line-height:1.3}
+.div-count{font-size:12px;color:#a1a1aa}
+.div-arrow{color:#00D964;font-size:16px;margin-top:4px}
+</style>
+<div class="divs-hero">
   <div class="container">
-    <h1>All Divisions</h1>
-    <p>1,202+ medical devices across 20 specialties — sourced from world-class manufacturers, delivered same-day across Telangana.</p>
+    <h1>Clinical Divisions</h1>
+    <p>1,202+ medical devices across 16 surgical specialties &mdash; 2-hour OT dispatch across all 33 Telangana districts</p>
   </div>
-</section>
-
-<div class="container" style="padding:48px 24px">
-  {%- comment -%} Group collections logically by handle prefix {%- endcomment -%}
-  {%- assign surgical = 'trauma-fracture,arthroplasty,spine,sports-medicine,cardiovascular,endo-surgery' | split: ',' -%}
-  {%- assign diagnostics = 'diagnostics,urology,gynecology,ent,ophthalmology,dental-cmf' | split: ',' -%}
-  {%- assign consumables = 'consumables,wound-care,pain-management,aesthetic-plastic,power-tools,ot-equipment,sterilization,ppe-safety' | split: ',' -%}
-
-  <div class="section-heading"><h2>Surgical Specialties</h2></div>
-  <div class="grid grid-4" style="margin-bottom:64px">
-    {%- for handle in surgical -%}
-      {%- assign c = collections[handle] -%}
-      {%- if c.id -%}{%- render 'collection-tile', collection: c -%}{%- endif -%}
-    {%- endfor -%}
-  </div>
-
-  <div class="section-heading"><h2>Diagnostics &amp; Specialties</h2></div>
-  <div class="grid grid-4" style="margin-bottom:64px">
-    {%- for handle in diagnostics -%}
-      {%- assign c = collections[handle] -%}
-      {%- if c.id -%}{%- render 'collection-tile', collection: c -%}{%- endif -%}
-    {%- endfor -%}
-  </div>
-
-  <div class="section-heading"><h2>Consumables &amp; Equipment</h2></div>
-  <div class="grid grid-4">
-    {%- for handle in consumables -%}
-      {%- assign c = collections[handle] -%}
-      {%- if c.id -%}{%- render 'collection-tile', collection: c -%}{%- endif -%}
-    {%- endfor -%}
-  </div>
-
-  {%- comment -%} Any remaining collections not in the curated groups {%- endcomment -%}
-  {%- assign all_handles = 'trauma-fracture,arthroplasty,spine,sports-medicine,cardiovascular,endo-surgery,diagnostics,urology,gynecology,ent,ophthalmology,dental-cmf,consumables,wound-care,pain-management,aesthetic-plastic,power-tools,ot-equipment,sterilization,ppe-safety' -%}
-  {%- assign extras = '' -%}
-  {%- for c in collections -%}
-    {%- unless all_handles contains c.handle -%}
-      {%- assign extras = extras | append: c.handle | append: ',' -%}
-    {%- endunless -%}
-  {%- endfor -%}
-  {%- if extras != '' -%}
-    <div class="section-heading" style="margin-top:64px"><h2>Other Collections</h2></div>
-    <div class="grid grid-4">
-      {%- for c in collections -%}
-        {%- unless all_handles contains c.handle -%}
-          {%- render 'collection-tile', collection: c -%}
-        {%- endunless -%}
+</div>
+<div class="container" style="padding-bottom:80px">
+  <div class="divs-section">
+    <div class="divs-label">Division 01</div>
+    <div class="divs-title">Surgical Specialties</div>
+    <div class="divs-grid">
+      {%- assign sh = 'trauma-fracture,arthroplasty,spine,sports-medicine,cardiovascular,endo-surgery' | split: ',' -%}
+      {%- assign sn = 'Trauma & Fracture,Arthroplasty,Spine,Sports Medicine,Cardiovascular,Endo-Surgery' | split: ',' -%}
+      {%- assign si = '🦴,🦿,🫀,🏃,❤️,🔬' | split: ',' -%}
+      {%- for i in (0..5) -%}
+        {%- assign cc = collections[sh[i]] -%}
+        <a href="/collections/{{ sh[i] }}" class="div-card">
+          <div class="div-icon">{{ si[i] }}</div>
+          <div class="div-name">{{ sn[i] }}</div>
+          <div class="div-count">{{ cc.products_count | default: 0 }} products</div>
+          <div class="div-arrow">&#8594;</div>
+        </a>
       {%- endfor -%}
     </div>
-  {%- endif -%}
+  </div>
+  <div class="divs-section">
+    <div class="divs-label">Division 02</div>
+    <div class="divs-title">Diagnostics &amp; Specialties</div>
+    <div class="divs-grid">
+      {%- assign dh = 'diagnostics,urology,gynecology,ent,ophthalmology,dental-cmf' | split: ',' -%}
+      {%- assign dn = 'Diagnostics & Lab,Urology,Gynecology,ENT,Ophthalmology,Dental & CMF' | split: ',' -%}
+      {%- assign di = '🧪,🫘,👶,👂,👁️,🦷' | split: ',' -%}
+      {%- for i in (0..5) -%}
+        {%- assign cc = collections[dh[i]] -%}
+        <a href="/collections/{{ dh[i] }}" class="div-card">
+          <div class="div-icon">{{ di[i] }}</div>
+          <div class="div-name">{{ dn[i] }}</div>
+          <div class="div-count">{{ cc.products_count | default: 0 }} products</div>
+          <div class="div-arrow">&#8594;</div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+  <div class="divs-section">
+    <div class="divs-label">Division 03</div>
+    <div class="divs-title">Consumables &amp; Equipment</div>
+    <div class="divs-grid">
+      {%- assign ch = 'consumables,wound-care,pain-management,aesthetic-plastic,power-tools,ot-equipment,sterilization,ppe-safety' | split: ',' -%}
+      {%- assign cn = 'Surgical Consumables,Wound Care,Pain Management,Aesthetic & Plastic,Power Tools,OT Equipment,Sterilization,PPE & Safety' | split: ',' -%}
+      {%- assign ci = '🩺,🩹,💉,✨,🔧,🏥,♻️,🥽' | split: ',' -%}
+      {%- for i in (0..7) -%}
+        {%- assign cc = collections[ch[i]] -%}
+        <a href="/collections/{{ ch[i] }}" class="div-card">
+          <div class="div-icon">{{ ci[i] }}</div>
+          <div class="div-name">{{ cn[i] }}</div>
+          <div class="div-count">{{ cc.products_count | default: 0 }} products</div>
+          <div class="div-arrow">&#8594;</div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
 </div>
-
-{%- comment -%} Inline tile snippet via capture (since we don't push it as a separate file) {%- endcomment -%}
-<style>
-  .collection-tile{
-    background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-    padding:28px;display:flex;flex-direction:column;gap:8px;transition:all .3s;text-decoration:none;color:inherit;
-  }
-  .collection-tile:hover{transform:translateY(-4px);border-color:var(--green);box-shadow:var(--glow-green)}
-  .collection-tile .icon{font-size:36px;line-height:1}
-  .collection-tile h3{margin:8px 0 4px;font-size:18px}
-  .collection-tile .desc{font-size:13px;color:var(--text-2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .collection-tile .count{font-size:12px;color:var(--text-3);margin-top:auto;padding-top:12px;display:flex;justify-content:space-between;align-items:center}
-  .collection-tile .count .go{color:var(--green);font-weight:600}
-</style>
-
-{% schema %}
-{
-  "name": "All Collections",
-  "settings": []
-}
-{% endschema %}
+{% schema %}{"name":"List Collections","settings":[]}{% endschema %}
